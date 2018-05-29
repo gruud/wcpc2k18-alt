@@ -1,0 +1,91 @@
+<?php
+
+namespace WCPC2K18Bundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use WCPC2K18Bundle\Entity\User;
+
+/**
+ * La classe Leaderboard implémente le classement d'un utilisateur pour le 
+ * concours de pronostic. Ce classement comporte un nombre de points calculés
+ * à partir des pronostics effectués par le joueur, ainsi que divers autres
+ * classements (moyenne de point, nombre de résultats corrects réalisés, etc). 
+ *
+ * @author Sébastien ZINS
+ * 
+ * @ORM\Entity
+ * @ORM\Table(name="wcpc_leaderboards")
+ */
+class Leaderboard {
+    
+    /**
+     *
+     * @var integer L'identifiant unique du classement
+     * 
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+    
+    /**
+     *
+     * @var User L'utilisateur lié au classement
+     * 
+     * @ORM\OneToOne(targetEntity="User", inversedBy="leaderboard")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+    
+    /**
+     *
+     * @var integer Le nombre standard de points de l'utilisateur au classement
+     * 
+     * @ORM\Column(type="integer")
+     */
+    private $points;
+    
+    /**
+     * Récupère l'identifiant unique du classement
+     * 
+     * @return integer l'Identifiant unique du classement
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * Récupère l'utilisateur rattaché au classement
+     * 
+     * @return User L'utilisateur rattaché au classement
+     */
+    public function getUser(): User {
+        return $this->user;
+    }
+
+    /**
+     * Récupère les points du classement standard
+     * 
+     * @return integer Le nombre de points attribué au classement standard
+     */
+    public function getPoints() {
+        return $this->points;
+    }
+
+    /**
+     * Positionne l'utilisateur associé au classement 
+     * 
+     * @param User $user L'utilisateur à positionner
+     */
+    public function setUser(User $user) {
+        $this->user = $user;
+    }
+
+    /**
+     * Positionner les points du classement standard
+     * @param integer $points Les points du classement à positionner
+     */
+    public function setPoints($points) {
+        $this->points = $points;
+    }
+}

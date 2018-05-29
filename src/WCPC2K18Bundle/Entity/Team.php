@@ -22,7 +22,7 @@ class Team {
      * 
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
     
@@ -33,6 +33,15 @@ class Team {
      * @ORM\Column(type="string", length=64)
      */
     private $name;
+    
+    /**
+     *
+     * @var string Le nom abrégé de l'équipe, sur trois caractères
+     * 
+     * @ORM\Column(type="string", length=3)
+     */
+    private $abbreviation;
+    
     
     /**
      *
@@ -58,15 +67,7 @@ class Team {
         $this->gamesAway = new ArrayCollection();
     }
     
-    
-    /**
-     *
-     * @var string Le nom abrégé de l'équipe, sur trois caractères
-     * 
-     * @ORM\Column(type="string", length=3)
-     */
-    private $abbreviation;
-    
+   
     /**
      * Récupère l'identifiant unique de l'équipe
      * 
@@ -95,6 +96,16 @@ class Team {
     }
 
     /**
+     * Positionne l'identifiant de l'équipe
+     * 
+     * @param integer $id L'identifiant à positionner
+     */
+    public function setId($id) {
+        $this->id = $id;
+    }
+
+        
+    /**
      * Positionne le nom de l'équipe
      * 
      * @param string $name Le nom à positionner
@@ -104,14 +115,17 @@ class Team {
     }
 
     /**
-     * Positionne l'abbréviation de l'équipe
+     * Positionne l'abbréviation de l'équipe. L'abbréviation fait obligatoirement
+     * trois caractères de long. 
      * 
      * @param string $abbreviation L'abbréviation à positionner
      */
     public function setAbbreviation($abbreviation) {
+        if(strlen($abbreviation) != 3) {
+            throw new \Exception("L'abbréviation doit obligatoirement faire"
+                    . "trois caractères de long");
+        }
         $this->abbreviation = $abbreviation;
     }
 
-
-    
 }
