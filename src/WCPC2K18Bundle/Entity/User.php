@@ -49,7 +49,7 @@ class User extends BaseUser{
      *
      * @var string Le service d'appartenance de l'utilisateur
      * 
-     * @ORM\Column(type="string", length=256)
+     * @ORM\Column(type="string", length=256, nullable=true)
      */
     protected $department;
     

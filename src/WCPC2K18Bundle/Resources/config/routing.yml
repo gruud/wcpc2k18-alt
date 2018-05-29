@@ -1,7 +1,24 @@
+##### Page d'accueil de l'application #####
 wcpc2k18_home:
     path: /
     defaults: { _controller: WCPC2K18Bundle:Home:index }
 
+
+##### Liste des rencontres #####
 wcpc2k18_games:
     path: /rencontres
-    defaults: { _controller: WCPC2K18Bundle:Games:index }
+    defaults: { _controller: WCPC2K18Bundle:Game:list }
+    
+    
+##### Listes des joueurs participant #####
+wcpc2k18_users:
+    path: /participants
+    defaults: { _controller: WCPC2K18Bundle:User:list }
+
+
+#### Classements #####
+wcpc2k18_leaderboard:
+    path: /classement
+    defaults: { _controller: WCPC2K18Bundle:Leaderboard:index } 
+    
+    

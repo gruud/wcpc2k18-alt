@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <title>{%block title %}WCPC2K18{% endblock title %}</title>
+        
+        {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/wcpc2k18/css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/wcpc2k18/css/styles.css') }}" />
+        {% endblock stylesheets %}
+        
+    </head>
+    <body>
+        {% block body %}{% endblock body %}
+        {% block javascripts %}
+            <script src="{{ asset('bundles/wcpc2k18/js/jquery.min.js') }}"></script>
+            <script src="{{ asset('bundles/wcpc2k18/js/popper.min.js') }}"></script>
+            <script src="{{ asset('bundles/wcpc2k18/js/bootstrap.min.js') }}"></script>
+        {% endblock javascripts %}
+    </body>
+</html>

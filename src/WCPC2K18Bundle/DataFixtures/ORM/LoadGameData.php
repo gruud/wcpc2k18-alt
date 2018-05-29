@@ -27,7 +27,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface {
             $game->setType($gameData['type']);
             $game->setHomeTeam($this->getReference('team-' . $gameData['homeTeam']));
             $game->setAwayTeam($this->getReference('team-' . $gameData['awayTeam']));
-            $game->setKickoff(\DateTime::createFromFormat("d/m/Y H:i", '10/01/2018 15:10'));
+            $game->setKickoff(\DateTime::createFromFormat("d/m/Y H:i", $gameData['date']));
             $game->setPhase($gameData["phase"]);
             $game->setGroup($gameData["group"]);
             
