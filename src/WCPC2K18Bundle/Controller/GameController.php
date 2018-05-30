@@ -19,7 +19,7 @@ class GameController extends Controller {
     public function listAction() {
         
         $manager = $this->getDoctrine()->getManager();
-        $games = $manager->getRepository('WCPC2K18Bundle:Game')->findAll();
+        $games = $manager->getRepository('WCPC2K18Bundle:Game')->findAllWithTeams();
         
         return  $this->render('WCPC2K18Bundle:Game:games_list.html.twig', [
             "games" => $games,

@@ -15,7 +15,7 @@ use WCPC2K18Bundle\Entity\Prediction;
  *
  * @author Sébastien ZINS
  * 
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="WCPC2K18Bundle\Entity\Repository\GameRepository")
  * @ORM\Table(name="wcpc_games")
  */
 class Game {
