@@ -1,0 +1,25 @@
+ <ul class="list-group">
+    {% for game in games %}
+    <li class="list-group-item list-group-item-action">
+        <div class="row">
+            <div class="col d-none d-lg-inline game-id">Match {{ game.id }}</div>
+            <div class="col">
+                <span class="game-date d-none d-lg-inline"><i class="far fa-clock"></i> {{ game.kickoff | date('d/m H:i') }}</span>
+                <span class="game-date d-none d-sm-inline d-md-inline d-lg-none d-xl-none">{{ game.kickoff | date('d/m H:i') }}</span>
+            </div>
+            <div class="col text-right">{{ game.homeTeam.name }}</div>
+            <div class="col text-right"><img class="d-none d-lg-inline" src="{{ asset(game.homeTeam | flag(32) ) }}"/></div>
+            <div class="col text-center"> - </div>
+            <div class="col text-left"><img class="d-none d-lg-inline" src="{{ asset(game.awayTeam | flag(32) ) }}"/></div>
+            <div class="col text-left">{{ game.awayteam.name}}</div>
+            <div class="col game-actions">
+                {% if predictionChecker.canPredict(game) %}
+                    <span class="label label-danger">bla</span>
+                {% else %}
+                    
+                {% endif %}
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>

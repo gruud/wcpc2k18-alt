@@ -1,8 +1,11 @@
 services:
-#    wcpc2_k18.example:
-#        class: WCPC2K18Bundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
-
+    
+    # Service de vérification de la validité d'un pronostic
+    wcpc2k18.prediction_checker:
+        class: WCPC2K18Bundle\Component\PredictionChecker
+        arguments: [ "%prediction_start_delay%", "%prediction_end_delay%" ]
+    
+    # Filtres twig personnalisés 
     wcpc2k18.twig_extension:
         class: WCPC2K18Bundle\Twig\WCPC2K18Extension
         public: false

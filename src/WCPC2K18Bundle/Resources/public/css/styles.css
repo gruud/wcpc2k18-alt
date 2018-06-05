@@ -31,3 +31,24 @@ h2.main-subtitle {
     font-size: 1em;
     color: #111144;
 }
+
+.card-header {
+    background-color : #002776;
+    color : #efefef;
+    font-weight: bold;
+}
+
+
+
+.game-date, .game-id {
+    font-size : 0.8em;
+}
+
+.game-actions {
+    font-size : 0.8em;
+}
+
+.next-games-panel-body {
+    overflow-y: scroll;
+    height: 400px;
+}

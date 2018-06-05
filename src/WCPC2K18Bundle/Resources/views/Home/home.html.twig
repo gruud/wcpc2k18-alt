@@ -1,7 +1,25 @@
 {% extends "WCPC2K18Bundle:Base:layout.html.twig" %}
 
 {% block content %}
-    <div class="col-lg-12">
-      Home!
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card mt-3">
+                <div class="card-header">
+                    <i class="far fa-calendar"></i> Prochaines rencontres <span class="badge badge-light">{{ nextGames | length }}</span>
+                </div>
+                <div class="card-body next-games-panel-body">
+                    {% include 'WCPC2K18Bundle:Game:games_item_list.html.twig' with { 'games' : nextGames} %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card mt-3">
+                <div class="card-header">
+                    <i class="far fa-calendar"></i> Classement
+                </div>
+                <div class="card-body">
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}
