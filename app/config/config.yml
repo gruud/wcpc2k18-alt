@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: "@WCPC2K18Bundle/Resources/config/parameters.yml" }
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: "@WCPC2K18Bundle/Resources/config/services.yml" }

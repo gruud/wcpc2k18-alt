@@ -1,0 +1,9 @@
+# Paramètres généraux de l'application. Ces paramètres sont indépendants de 
+# la plate-forme
+parameters:
+  # Le nombre de jour précédents la rencontre à partir duquel les prédictions peuvent
+  # être saisies par l'utilisateur, en minutes
+  prediction_start_delay: 14400
+
+  # Indique le délai de clôture des prédictions, en minutes. 
+  prediction_end_delay: 10
