@@ -1,0 +1,18 @@
+[
+    {
+        "username": "szins",
+        "email": "sebastien.zins@gmail.com",
+        "password": "Szins69!",
+        "firstName": "Sébastien",
+        "lastName" : "Zins",
+        "role" : "ROLE_ADMIN"
+    },
+    {
+        "username": "dklotz",
+        "email": "didierkl@hotmail.fr",
+        "password": "dKlotz458*",
+        "firstName": "Didier",
+        "lastName" : "Klotz",
+        "role" : "ROLE_USER"
+    }
+]

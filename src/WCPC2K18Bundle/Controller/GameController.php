@@ -24,6 +24,7 @@ class GameController extends Controller {
         
         return  $this->render('WCPC2K18Bundle:Game:games_list.html.twig', [
             "games" => $games,
+            
         ]);
     }
 

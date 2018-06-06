@@ -3,7 +3,15 @@ services:
     # Service de vérification de la validité d'un pronostic
     wcpc2k18.prediction_checker:
         class: WCPC2K18Bundle\Component\PredictionChecker
-        arguments: [ "%prediction_start_delay%", "%prediction_end_delay%" ]
+        arguments: ["@doctrine.orm.entity_manager", "@security.token_storage",  "%prediction_start_delay%", "%prediction_end_delay%" ]
+        
+        
+    # Formulaire de saisie d'une prédiction
+    wcpc2k18.form.prediction:
+        class: WCPC2K18Bundle\Form\PredictionType
+        arguments: ["@wcpc2k18.prediction_checker" ]
+        tags:
+            - { name: form.type, alias: prediction }
     
     # Filtres twig personnalisés 
     wcpc2k18.twig_extension:

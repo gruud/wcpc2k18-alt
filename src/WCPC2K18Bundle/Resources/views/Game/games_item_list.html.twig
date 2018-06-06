@@ -14,7 +14,7 @@
             <div class="col text-left">{{ game.awayteam.name}}</div>
             <div class="col game-actions">
                 {% if predictionChecker.canPredict(game) %}
-                    <span class="label label-danger">bla</span>
+                    <a href="{{ path('wcpc2k18_form_prediction', { 'gameId' : game.id}) }}"><button class="btn btn-sm btn-warning">Pronostiquez</button></a>
                 {% else %}
                     
                 {% endif %}

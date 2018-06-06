@@ -3,6 +3,8 @@
 namespace WCPC2K18Bundle\Component;
 
 use \DateInterval;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use WCPC2K18Bundle\Entity\User;
 use WCPC2K18Bundle\Entity\Game;
 
@@ -28,6 +30,18 @@ class PredictionChecker {
      */
     private $predictionEndDelay;
     
+    /**
+     *
+     * @var User L'utilisateur connecté
+     */
+    private $user;
+    
+    /**
+     *
+     * @var EntityManager Le gestionnaire d'entité Doctrine
+     */
+    private $manager;
+    
     
     /**
      * Constructeur
@@ -38,9 +52,11 @@ class PredictionChecker {
      * au début de la rencontre, après laquelle l'utilisateur ne peut plus
      * pronostiquer
      */
-    public function __construct($predictionStartDelay, $predictionEndDelay) {
+    public function __construct(EntityManager $manager, TokenStorage $tokenStorage, $predictionStartDelay, $predictionEndDelay) {
         $this->predictionStartDelay = new DateInterval('PT' . $predictionStartDelay . 'S');
         $this->predictionEndDelay = new DateInterval('PT' . $predictionEndDelay . 'S');
+        $this->user = $tokenStorage->getToken()->getUser();
+        $this->manager = $manager;
     }
     
     /**
@@ -67,5 +83,20 @@ class PredictionChecker {
         $end->sub($this->predictionEndDelay);
         
         return $now > $start && $now < $end;
+    }
+    
+    /**
+     * Vérifie si l'utilisateur a déjà utilisé son jackpot pour la journée $day.
+     * 
+     * @param string $day Le nom de la journée considérée
+     * @return boolean VRAI si l'utilisateur a déjà utilisé son jackpot pour la
+     * journée $day, faux sinon.
+     */
+    public function jackpotUsedForDay($day) {
+        $predictionWithJackpot = $this->manager
+                ->getRepository('WCPC2K18Bundle:Prediction')
+                ->findUserJackpotForDay($this->user, $day);
+        
+        return $predictionWithJackpot !== null;
     }
 }
