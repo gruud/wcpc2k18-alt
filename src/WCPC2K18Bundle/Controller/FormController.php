@@ -65,13 +65,12 @@ class FormController extends Controller {
         $form->handleRequest($request);
         
         if ($form->isSubmitted()) {
-            if ($form->isValid()) {
+            if ($form->isValid() && $form->getClickedButton()->getName() === 'submit') {
                 $manager->persist($prediction);
                 $manager->flush();
-                $redirection  =$request->get('source', $this->generateUrl('wcpc2k18_home'));
-                return $this->redirect($redirection);
-                
             }
+            $redirection  =$request->get('source', $this->generateUrl('wcpc2k18_home'));
+            return $this->redirect($redirection);
         }
         
         //4. Mise en place du formulaire

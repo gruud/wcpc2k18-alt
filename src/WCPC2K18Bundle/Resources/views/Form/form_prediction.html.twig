@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="row">
-        <div class="offset-lg-4 col-lg-4 mt-3">
+        <div class="offset-lg-3 col-lg-6 offset-md-2 col-md-8 offset-sm-1 col-sm-10 mt-3">
             <div class="card">
                 <div class="card-header">
                     Votre pronostic pour {{ game.homeTeam.name }} <img  class="ml-1 mr-3" src="{{ asset(game.homeTeam | flag(32) ) }}" />
@@ -18,10 +18,10 @@
                         <div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> Vous avez déjà misé double sur une autre rencontre ({{ game.homeTeam.name }} - {{ game.awayTeam.name }}) pour la journée courante ({{ game.phase }}). Vous ne pouvez doubler seulement sur une rencontre par journée.</div>
                     {% endif %}
                     {{ form_row(form.jackpot) }}
-
-                        
-                    
-                    {{ form_row(form.submit) }}
+                        <div class="btn-group">
+                            {{ form_row(form.submit, {'attr' : {'class' : 'btn-success mr-3'} }) }}
+                            {{ form_row(form.cancel) }}
+                        </div>
                     {{ form_end(form) }}
                 </div>
             </div>

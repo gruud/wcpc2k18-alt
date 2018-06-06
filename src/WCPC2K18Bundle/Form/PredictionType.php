@@ -49,14 +49,17 @@ class PredictionType extends AbstractType {
 
         $builder->add('goalsHome', 'integer',
                       [
-            'label' => $this->getScoreLabel($game->getHomeTeam())
+            'label' => $this->getScoreLabel($game->getHomeTeam()),
         ])->add('goalsAway', 'integer',
                 [
-            'label' => $this->getScoreLabel($game->getAwayTeam())
+            'label' => $this->getScoreLabel($game->getAwayTeam()),
         ])->add('submit', 'submit',
                 [
             'label' => "Valider",
-            'attr'  => ['class' => 'btn-success']
+            'attr'  => ['class' => '']
+        ])->add('cancel', 'submit', [
+            'label' => 'Annuler',
+            'attr' => ['class' => 'btn-dark pull-right', 'formnovalidate' => 'formnovalidate']
         ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA,
