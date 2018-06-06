@@ -39,16 +39,17 @@ h2.main-subtitle {
 }
 
 
-
-.game-date, .game-id {
-    font-size : 0.8em;
-}
-
-.game-actions {
-    font-size : 0.8em;
-}
-
 .next-games-panel-body {
     overflow-y: scroll;
     height: 400px;
+}
+
+.wcpc2k18-table {
+    font-size : 0.9em;
+    
+}
+
+.subheader {
+    font-size: 0.85em;
+    color : #999;
 }

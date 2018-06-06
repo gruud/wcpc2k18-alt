@@ -28,7 +28,14 @@ class HomeController extends Controller {
         $nextGames = $manager->getRepository('WCPC2K18Bundle:Game')->findNextGames($user);
         $predictionChecker = $this->get('wcpc2k18.prediction_checker');
         
+        //Récupération des pronostics de l'utilisateurs
+        $userPredictions = $manager
+                ->getRepository('WCPC2K18Bundle:Prediction')
+                ->findUserPredictionsIndexedByGameId($user);
         
-    return $this->render('WCPC2K18Bundle:Home:home.html.twig', compact('nextGames', 'predictionChecker'));
+        
+        
+    return $this->render('WCPC2K18Bundle:Home:home.html.twig',
+            compact('nextGames', 'predictionChecker', 'userPredictions'));
     }
 }

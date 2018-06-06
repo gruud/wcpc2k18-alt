@@ -28,22 +28,14 @@ class PredictionType extends AbstractType {
     private $predictionChecker;
 
     /**
-     * 
-     * Constructeur
-     * 
-     * @param PredictionChecker $checker Le service de validation des pronostics
-     */
-    public function __construct(PredictionChecker $checker) {
-        $this->predictionChecker = $checker;
-    }
-
-    /**
      * Construit le formulaire
      * @param FormBuilderInterface $builder L'utilitaire de construction de formulaire
      * @param array $options Les options passées au formulaire pour sa construction
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         parent::buildForm($builder, $options);
+        
+        $this->predictionChecker = $options['predictionChecker'];
 
         $game = $options['game'];
 
@@ -75,7 +67,8 @@ class PredictionType extends AbstractType {
 
         $form->add('jackpot', 'checkbox',[
             "label"    => "Je mise double sur cette rencontre",
-            "disabled" => $this->predictionChecker->jackpotUsedForDay($day)
+            "required" => false,
+            "disabled" => $this->predictionChecker->jackpotUsedForDay($day) && !$prediction->getJackpot()
         ]);
     }
 
@@ -95,7 +88,7 @@ class PredictionType extends AbstractType {
      */
     public function configureOptions(OptionsResolver $resolver) {
         parent::configureOptions($resolver);
-        $resolver->setDefined(['game', 'user']);
+    $resolver->setRequired(['game', 'user', 'predictionChecker']);
     }
 
 }

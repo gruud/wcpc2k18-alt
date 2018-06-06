@@ -40,6 +40,7 @@ class FormController extends Controller {
         // de base ROLE_USER suffit, aucune vérification complémentaire n'est
         // nécessaire.
         $user = $this->get('security.token_storage')->getToken()->getUser();
+        $predictionChecker = $this->get('wcpc2k18.prediction_checker');
         
         //2. Récupération de la rencontre. Si aucune rencontre n'est trouvé pour
         // l'identifiant, on renvoie une erreur 404.
@@ -60,14 +61,16 @@ class FormController extends Controller {
             $prediction->setGame($game);
             $prediction->setUser($user);
         }
+
         
-        $form = $this->createForm('prediction', $prediction, compact('user', 'game'));
+        $form = $this->createForm('prediction', $prediction, compact('user', 'game', 'predictionChecker'));
         $form->handleRequest($request);
         
         if ($form->isSubmitted()) {
             if ($form->isValid() && $form->getClickedButton()->getName() === 'submit') {
                 $manager->persist($prediction);
                 $manager->flush();
+                $this->get('session')->getFlashBag()->add('success', $this->getSuccessMessage($prediction));
             }
             $redirection  =$request->get('source', $this->generateUrl('wcpc2k18_home'));
             return $this->redirect($redirection);
@@ -78,5 +81,12 @@ class FormController extends Controller {
             'form' => $form->createView(),
             'game' => $game,
         ]);
+    }
+    
+    private function getSuccessMessage(Prediction $prediction) {
+        return 'Votre pronostic a bien été enregistré :'
+        . $prediction->getGame()->getHomeTeam()->getName() . " - "
+        . $prediction->getGame()->getAwayTeam()->getName() . " : "
+        . $prediction->getGoalsHome() . ' - ' . $prediction->getGoalsAway();
     }
 }

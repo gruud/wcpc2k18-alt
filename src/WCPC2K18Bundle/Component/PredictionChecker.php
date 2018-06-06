@@ -74,15 +74,37 @@ class PredictionChecker {
      * @return TRUE si l'utilisateur peut pronostiquer la rencontre, FALSE sinon.
      */
     public function canPredict(Game $game) {
-        
+        return  !$this->gameStillClosed($game) && !$this->gameDeadlinePassed($game);
+    }
+    
+    /**
+     * Vérifie si une rencontre est encore fermée aux pronostics car la date 
+     * d'ouverture n'est pas encore advenue. 
+     * 
+     * @param Game $game La rencontre pour laquelle on souhaite faire la vérification.
+     * @return boolean VRAI si la rencontre est encore fermée, FAUX sinon. 
+     */
+    public function gameStillClosed(Game $game) {
         $start = clone $game->getKickoff();
+        $now = new \DateTime();
+        $start->sub($this->predictionStartDelay);
+        
+        return $now < $start;
+    }
+    
+    /**
+     * Vérifie si la date limite de saisie d'un pronostic est passée. 
+     * 
+     * @param Game $game La rencontre pour laquelle effectuer cette vérification
+     * @return VRAI si la date limite de saisie est passée, FAUX sinon.
+     */
+    public function gameDeadlinePassed(Game $game) {
         $end = clone $game->getKickoff();
         $now = new \DateTime();
-        
-        $start->sub($this->predictionStartDelay);
+
         $end->sub($this->predictionEndDelay);
         
-        return $now > $start && $now < $end;
+        return $now > $end;
     }
     
     /**

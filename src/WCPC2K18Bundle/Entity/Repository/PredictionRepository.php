@@ -39,6 +39,29 @@ class PredictionRepository extends EntityRepository{
     }
     
     /**
+     * Récupère tous les pronostics d'un utilisateurs dans un tableau indéxé
+     * par l'identifiant de la rencontre pour laquelle ils ont été émis
+     * 
+     * @param User $user L'utilisateur pour lequel on veut récupérer toutes les
+     * rencontres. 
+     * @return array Un tableau de pronostics indexés par l'identifiant de la
+     * rencontre
+     */
+    public function findUserPredictionsIndexedByGameId(User $user) {
+        $qb = $this->createQueryBuilder('p');
+        $qb->join('p.user', 'u')->join('p.game','g');
+        $qb->where('u.id=:uid')->setParameter('uid', $user->getId());
+        
+        $predictions = $qb->getQuery()->getResult();
+        $predictionsArray = [];
+        foreach ($predictions as $prediction) {
+            $predictionsArray[$prediction->getGame()->getId()] = $prediction;
+        }
+        
+        return $predictionsArray;
+    }
+    
+    /**
      * Récupère les rencontres d'une journée $day donnée pour lesquelles l'utilisateur
      * a doublé la mise. Renvoie une prédiction si le jackpot a déjà été utilisé,
      * et null sinon. Utilisé par le service de vérification de prédiction pour 

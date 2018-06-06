@@ -15,7 +15,7 @@
                     {{ form_row(form.goalsHome) }}
                     {{ form_row(form.goalsAway) }}
                     {% if form.jackpot.vars.disabled %}
-                        <div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> Vous avez déjà misé double sur une autre rencontre ({{ game.homeTeam.name }} - {{ game.awayTeam.name }}) pour la journée courante ({{ game.phase }}). Vous ne pouvez doubler seulement sur une rencontre par journée.</div>
+                        <div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> Vous avez déjà misé double sur une autre rencontre pour la journée courante ({{ game.phase }}). Vous ne pouvez doubler seulement sur une rencontre par journée.</div>
                     {% endif %}
                     {{ form_row(form.jackpot) }}
                         <div class="btn-group">
