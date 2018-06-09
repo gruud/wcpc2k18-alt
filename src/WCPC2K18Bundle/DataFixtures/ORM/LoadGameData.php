@@ -5,11 +5,10 @@ namespace WCPC2K18\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use WCPC2K18Bundle\Entity\Game;
-use WCPC2K18Bundle\Entity\Team;
 /**
- * Description of LoadTeamData
+ * La classe LoadTeamData implémente la méthode de chargement initiale des
+ * rencontres de la compétition, réalisée à partir d'un fichier JSON. 
  *
  * @author seb
  */

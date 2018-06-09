@@ -2,8 +2,8 @@
 # la plate-forme
 parameters:
   # Le nombre de jour précédents la rencontre à partir duquel les prédictions peuvent
-  # être saisies par l'utilisateur, en minutes
-  prediction_start_delay: 14400
+  # être saisies par l'utilisateur, en secondes. Par défaut : 864000 (10 jours)
+  prediction_start_delay: 864000
 
-  # Indique le délai de clôture des prédictions, en minutes. 
-  prediction_end_delay: 10
+  # Indique le délai de clôture des prédictions, en secondes. Par défaut : 3600 (une heure)
+  prediction_end_delay: 3600

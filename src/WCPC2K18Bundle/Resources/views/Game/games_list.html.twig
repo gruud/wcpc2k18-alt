@@ -8,23 +8,7 @@
                 <i class="far fa-calendar"></i> Détail des rencontres
             </div>
             <div class="card-body">
-                <ul class="list-group">
-                    {% for game in games %}
-                    <li class="list-group-item list-group-item-action">
-                        <div class="row">
-                            <div class="col d-none d-lg-inline">Match {{ game.id }}</div>
-                            <div class="col">
-                                <span class="d-none d-lg-inline"><i class="far fa-clock"></i> {{ game.kickoff | date('d/m/Y H:i') }}</span>
-                                <span class="d-none d-sm-inline d-md-inline d-lg-none d-xl-none">{{ game.kickoff | date('d/m H:i') }}</span>
-                            </div>
-                            <div class="col text-right">{{ game.homeTeam.name }} <img class="d-none d-lg-inline" src="{{ asset(game.homeTeam | flag(32) ) }}"/></div>
-                            <div class="col text-center"> - </div>
-                            <div class="col text-left"><img class="d-none d-lg-inline" src="{{ asset(game.awayTeam | flag(32) ) }}"/> {{ game.awayteam.name}}</div>
-                            <div class="col"><button class="btn btn-outline-dark" role="button">Pronostic</button></div>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
+                {% include 'WCPC2K18Bundle:Game:games_item_list.html.twig' %}
               
             </div>
         </div>

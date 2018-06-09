@@ -31,3 +31,25 @@ h2.main-subtitle {
     font-size: 1em;
     color: #111144;
 }
+
+.card-header {
+    background-color : #002776;
+    color : #efefef;
+    font-weight: bold;
+}
+
+
+.next-games-panel-body {
+    overflow-y: scroll;
+    height: 400px;
+}
+
+.wcpc2k18-table {
+    font-size : 0.9em;
+    
+}
+
+.subheader {
+    font-size: 0.85em;
+    color : #999;
+}

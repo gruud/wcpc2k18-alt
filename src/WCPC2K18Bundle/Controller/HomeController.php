@@ -19,6 +19,23 @@ class HomeController extends Controller {
      * @return Response La réponse à renvoyer au client
      */
     public function indexAction() {
-        return $this->render('WCPC2K18Bundle:Home:home.html.twig');
+        
+        //1. Récupération des prochaines rencontres à pronostiquer, agrémentées des pronostics
+        // de l'utilisateur connecté.
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $manager = $this->getDoctrine()->getManager();
+        
+        $nextGames = $manager->getRepository('WCPC2K18Bundle:Game')->findNextGames($user);
+        $predictionChecker = $this->get('wcpc2k18.prediction_checker');
+        
+        //Récupération des pronostics de l'utilisateurs
+        $userPredictions = $manager
+                ->getRepository('WCPC2K18Bundle:Prediction')
+                ->findUserPredictionsIndexedByGameId($user);
+        
+        
+        
+    return $this->render('WCPC2K18Bundle:Home:home.html.twig',
+            compact('nextGames', 'predictionChecker', 'userPredictions'));
     }
 }

@@ -4,6 +4,7 @@
 namespace WCPC2K18Bundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use WCPC2K18Bundle\Entity\User;
 use WCPC2K18Bundle\Entity\Game;
 
@@ -12,7 +13,7 @@ use WCPC2K18Bundle\Entity\Game;
  *
  * @author Sébastien ZINS
  * 
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="WCPC2K18Bundle\Entity\Repository\PredictionRepository")
  * @ORM\Table(name="wcpc_predictions")
  */
 class Prediction {
@@ -32,6 +33,9 @@ class Prediction {
      * @var integer Le nombre de buts pronostiqués pour l'équipe à domicile
      * 
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Type("integer", message="Saisissez un nombre entier supérieur à zéro")
+     * @Assert\Range(min="0", max="100", minMessage="Le score doit être supérieur à 0", maxMessage="Le score doit être inférieur à 100")
      */
     private $goalsHome;
     
@@ -40,6 +44,9 @@ class Prediction {
      * @var integer Le nombre de buts pronostiqués pour l'équipe à l'extérieur
      * 
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Type("integer", message="Saisissez un nombre entier supérieur à zéro")
+     * @Assert\Range(min="0", max="100", minMessage="Le score doit être supérieur à 0", maxMessage="Le score doit être inférieur à 100")
      */
     private $goalsAway;
     

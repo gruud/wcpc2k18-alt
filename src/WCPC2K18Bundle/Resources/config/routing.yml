@@ -26,4 +26,8 @@ wcpc2k18_rules:
     path: /regles
     defaults: { _controller: WCPC2K18Bundle:Rule:index }
     
+wcpc2k18_form_prediction:
+    path: /rencontre/{gameId}/pronostic
+    defaults: { _controller: WCPC2K18Bundle:Form:prediction }
+    
     

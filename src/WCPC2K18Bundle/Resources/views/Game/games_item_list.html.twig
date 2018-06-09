@@ -1,17 +1,58 @@
-<ul class="list-group">
-    {% for game in games %}
-    <li class="list-group-item list-group-item-action">
-        <div class="row">
-            <div class="col d-none d-lg-inline">Match {{ game.id }}</div>
-            <div class="col">
-                <span class="d-none d-lg-inline"><i class="far fa-clock"></i> {{ game.kickoff | date('d/m/Y H:i') }}</span>
-                <span class="d-none d-sm-inline d-md-inline d-lg-none d-xl-none">{{ game.kickoff | date('d/m H:i') }}</span>
-            </div>
-            <div class="col text-right">{{ game.homeTeam.name }} <img class="d-none d-lg-inline" src="{{ asset(game.homeTeam | flag(32) ) }}"/></div>
-            <div class="col text-center"> - </div>
-            <div class="col text-left"><img class="d-none d-lg-inline" src="{{ asset(game.awayTeam | flag(32) ) }}"/> {{ game.awayteam.name}}</div>
-            <div class="col"><button class="btn btn-outline-dark" role="button">Pronostic</button></div>
-        </div>
-    </li>
-    {% endfor %}
-</ul>
+{% macro predictionButton(game, userPredictions) %}
+    
+    {% if userPredictions[game.id] is defined %}
+        {% set predictionDisplay = userPredictions[game.id].goalsHome ~ ' - ' ~  userPredictions[game.id].goalsAway %}
+    {% else %}
+        {% set predictionDisplay = 'Pronostic' %}
+    {% endif %}
+    <a href="{{ path('wcpc2k18_form_prediction', { 'gameId' : game.id}) }}"><button class="btn btn-sm btn-warning"><i class="fas fa-pencil-alt"></i> {{ predictionDisplay }}</button></a>
+    
+{% endmacro %}
+
+
+
+
+
+{% macro predictionBadge(game, userPredictions, predictionChecker) %}
+    
+        {% set predictionDisplay = userPredictions[game.id].goalsHome | default('') ~ ' - ' ~  userPredictions[game.id].goalsAway | default('') %}
+        {% if predictionChecker.gameStillClosed(game) %}
+            {% set message = 'Fermée' %}
+            {% set badgeColor = 'dark' %}
+        {% endif %}
+        <span class="badge badge-{{ badgeColor | default('danger')}}"><i class="fas fa-lock"></i> {{ message }}</span>
+
+{% endmacro %}
+
+
+<table class="table table-sm table-striped wcpc2k18-table">
+    <thead>
+        <tr>
+            <td>#</td>
+            <td>Date</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>Pronostics</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for game in games %}
+        <tr>
+            <td class="game-id">Match {{ game.id }}<br><span class="subheader">{{ game.phase }}</span></td>
+            <td class="game-date"><i class="far fa-clock"></i> {{ game.kickoff | date('d/m H:i') }}</td>
+            <td class="text-right">{{ game.homeTeam.name }}<img class="ml-3 d-none d-lg-inline" src="{{ asset(game.homeTeam | flag(32) ) }}" /></td>
+            <td class="text-center">-</td>
+            <td class=""><img class="mr-3 d-none d-lg-inline" src="{{ asset(game.awayTeam | flag(32) ) }}"/>{{ game.awayTeam.name }}</td>
+            <td>
+                {% if predictionChecker.canPredict(game) %}
+                    {{ _self.predictionButton(game, userPredictions) }}
+                {% else %}
+                    {{ _self.predictionBadge(game, userPredictions, predictionChecker) }}
+                {% endif %}
+            </td>
+                
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
