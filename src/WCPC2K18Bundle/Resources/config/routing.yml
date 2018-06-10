@@ -36,4 +36,9 @@ wcpc2k18_form_game:
     path: /rencontre/{gameId}/resultat
     defaults: { _controller: WCPC2K18Bundle:Form:game }
     
+### Accès au détail d'une rencontre
+wcpc2k18_game:
+    path: /rencontre/{gameId}/detail
+    defaults: { _controller: WCPC2K18Bundle:Game:show }
+    
     

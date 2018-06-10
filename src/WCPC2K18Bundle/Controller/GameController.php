@@ -34,5 +34,15 @@ class GameController extends Controller {
             
         ]);
     }
+    
+    /**
+     * Méthode de contrôleur prenant en charge l'affichage du résultat de la rencontre
+     * 
+     * @param integer $gameId L'identifiant de la rencontre
+     */
+    public function showAction($gameId) {
+        
+        return $this->render("WCPC2K18Bundle:Game:game.html.twig");
+    }
 
 }
