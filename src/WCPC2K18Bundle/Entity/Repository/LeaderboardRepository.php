@@ -28,4 +28,24 @@ class LeaderboardRepository extends EntityRepository {
         
         return $qb->getQuery()->getResult();
     }
+    
+    /**
+     * 
+     * @return array Le classement général sous la forme d'entrées indexées
+     * par l'identifiant utilisateur. Utilisé pour les recalculs complets 
+     * de classements.
+     */
+    public function findIndexedByUserIdArray() {
+        $qb = $this->createQueryBuilder('l');
+        $qb->join('l.user', 'u')->addSelect('u');
+        
+        $leaderboard = $qb->getQuery()->getResult();
+        $lbArray = [];
+        
+        foreach($leaderboard as $boardItem) {
+            $lbArray[$boardItem->getUser()->getId()] = $boardItem;
+        }
+        
+        return $lbArray;
+    }
 }

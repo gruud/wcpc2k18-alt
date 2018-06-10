@@ -61,6 +61,16 @@ class Prediction {
     
     /**
      *
+     * @var integer Les points gagnés pour cette rencontre. Calculé lors de la
+     * mise à jour des classements. Par défaut, le nombre de points est négatif
+     * pour indiquer que les points n'ont pas encore été attribués
+     * 
+     * @ORM\Column(type="integer")
+     */
+    private $points = -1;
+    
+    /**
+     *
      * @var User L'utilisateur réalisant le pronostic
      * 
      * @ORM\ManyToOne(targetEntity="User", inversedBy="predictions")
@@ -117,6 +127,42 @@ class Prediction {
     public function getGame(): Game {
         return $this->game;
     }
+    
+    /**
+     * Récupère les points gagnés grâce à ce pronostic
+     * @return integer Les points gagnés via ce pronostic
+     */
+    public function getPoints() {
+        return $this->points;
+    }
+    
+    
+    /**
+     * Renvoie le résultat de la prédiction. Le résultat entier emploie les
+     * même conventions que les résultats de la rencontre pour permettre un 
+     * comparatif facile.
+     * 
+     * @return Un entier représentant le résultat de la prédiction (1 N 2)
+     */
+    public function getResult() {
+        
+        if ($this->getGoalsHome() == $this->getGoalsAway()) {
+            return Game::RESULT_DRAW;
+        } elseif($this->getGoalsHome() > $this->getGoalsAway()) {
+            return Game::RESULT_WINNER_HOME;
+        } else {
+            return Game::RESULT_WINNER_AWAY;
+        }
+    }
+    
+    /**
+     * Récupère la différence de buts pronostiquée par l'utilisateur
+     * 
+     * @return integer La différence de buts pronostiquée
+     */
+    public function getGA() {
+        return $this->goalsHome - $this->goalsAway;
+    }
 
     public function setId($id) {
         $this->id = $id;
@@ -142,24 +188,16 @@ class Prediction {
         $this->game = $game;
     }
     
+    /**
+     * Positionne les points gagnés via ce pronostic
+     * @param integer $points Les points à positionner
+     */
+    public function setPoints($points) {
+        $this->points = $points;
+    }
+    
     public function __toString() {
         return $this->user . " : " . $this->goalsHome . " - " . $this->goalsAway;
     }
     
-    /**
-     * Renvoie le résultat de la prédiction. Le résultat entier emploie les
-     * même conventions que les résultats de la rencontre pour permettre un 
-     * comparatif facile.
-     * 
-     * @return Un entier représentant le résultat de la prédiction (1 N 2)
-     */
-    public function getResult() {
-        if ($this->getGoalsHome() == $this->getGoalsAway()) {
-            return Game::RESULT_WINNER_HOME;
-        } elseif($this->getGoalsHome() > $this->getGoalsAway()) {
-            return Game::RESULT_WINNER_AWAY;
-        } else {
-            return Game::RESULT_DRAW;
-        }
-    }
 }

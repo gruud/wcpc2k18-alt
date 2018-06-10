@@ -26,6 +26,7 @@ class HomeController extends Controller {
         $manager = $this->getDoctrine()->getManager();
         
         $nextGames = $manager->getRepository('WCPC2K18Bundle:Game')->findNextGames($user);
+        $lastGames = $manager->getRepository('WCPC2K18Bundle:Game')->findLastGameResults(8);
         $predictionChecker = $this->get('wcpc2k18.prediction_checker');
         
         $userPredictions = $manager
@@ -39,6 +40,6 @@ class HomeController extends Controller {
         
         
     return $this->render('WCPC2K18Bundle:Home:home.html.twig',
-            compact('nextGames', 'predictionChecker', 'userPredictions', 'leaderboard'));
+            compact('nextGames', 'lastGames', 'predictionChecker', 'userPredictions', 'leaderboard'));
     }
 }

@@ -63,4 +63,21 @@ class GameRepository extends EntityRepository {
         
         return $qb->getQuery()->getResult();
     }
+    
+    /**
+     * Récupère les derniers résultats de rencontres, dans la limite du paramètre
+     * $maxResults
+     * 
+     * @param integer $maxResults Le nombre maximal de rencontres à renvoyer
+     * @return type
+     */
+    public function findLastGameResults($maxResults) {
+        $qb = $this->createQueryBuilder('g');
+        $qb->where($qb->expr()->isNotNull('g.goalsHome'));
+        $qb->setMaxResults($maxResults);
+        $qb->orderBy('g.kickoff', 'DESC');
+        
+        
+        return $qb->getQuery()->getResult();
+    }
 }

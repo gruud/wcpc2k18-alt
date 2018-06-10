@@ -90,6 +90,14 @@ class Leaderboard {
     }
     
     /**
+     * Ajoute $points points aux points du classement actuellement défini
+     * @param integer $points Les points à ajouter au classement
+     */
+    public function addPoints($points) {
+        $this->points += $points;
+    }
+    
+    /**
      * Renvoie une représentation de l'objet sous la forme d'une chaîne de 
      * caractères
      * @return string La chaîne associée à l'objet 

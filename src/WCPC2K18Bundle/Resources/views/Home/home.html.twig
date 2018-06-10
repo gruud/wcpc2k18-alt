@@ -3,7 +3,15 @@
 {% block content %}
     <div class="row">
         <div class="col-lg-8">
-            {% include 'WCPC2K18Bundle:Home/Panes:home_next_games_pane.html.twig' %}
+            <div class="row">
+                <div class="col-sm-12">
+                    {% include 'WCPC2K18Bundle:Home/Panes:home_last_played_games_pane.html.twig' %}
+                </div>
+                <div class="col-sm-12">
+                    {% include 'WCPC2K18Bundle:Home/Panes:home_next_games_pane.html.twig' %}
+                </div>
+            </div>
+            
         </div>
         <div class="col-lg-4">
            {% include 'WCPC2K18Bundle:Home/Panes:home_leaderboard_general_pane.html.twig' %}

@@ -398,6 +398,34 @@ class Game {
     public function getPredictions() {
         return $this->predictions;
     }
+    
+    /**
+     * Renvoie le vainqueur de la rencontre sous la forme d'un entier.
+     * 
+     * @return integer Renvoie le résultat de la rencontre
+     */
+    public function getResult() {
+        if ($this->getGoalsHome() === null) {
+            return self::RESULT_WINNER_UNDEF;
+        } elseif($this->getGoalsHome() == $this->getGoalsAway()) {
+            return self::RESULT_DRAW;
+        } elseif($this->getGoalsHome() > $this->getGoalsAway()) {
+            return self::RESULT_WINNER_HOME;
+        } else {
+            return self::RESULT_WINNER_AWAY;
+        }
+    }
+    
+    /**
+     * Récupère la différence de but de la rencontre (i.e. la différence entre
+     * le nombre de but marqués par l'équipe à domicile et le nombre de buts
+     * marqués par l'équipe à l'extérieur). Utilisé notamment pour vérifier
+     * si l'utilisateur a la bonne différence de buts ou non
+     * @return type
+     */
+    public function getGA() {
+        return $this->goalsHome - $this->goalsAway;
+    }
 
     /**
      * Positionne la phase d'appartenance de la rencontre
@@ -502,22 +530,6 @@ class Game {
                 . "-" . $this->getAwayTeam()->getName();
     }
     
-    /**
-     * Renvoie le vainqueur de la rencontre sous la forme d'un entier.
-     * 
-     * @return integer Renvoie le résultat de la rencontre
-     */
-    public function getResult() {
-        if ($this->getGoalsHome() === null) {
-            return self::RESULT_WINNER_UNDEF;
-        } elseif($this->getGoalsHome() == $this->getGoalsAway()) {
-            return self::RESULT_DRAW;
-        } elseif($this->getGoalsHome() > $this->getGoalsAway()) {
-            return self::RESULT_WINNER_HOME;
-        } else {
-            return self::RESULT_WINNER_AWAY;
-        }
-    }
     
     /**
      * Positionne la règle du jeu à utiliser pour compter les points de pronostics
