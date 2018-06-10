@@ -5,6 +5,10 @@ services:
         class: WCPC2K18Bundle\Component\PredictionChecker
         arguments: ["@doctrine.orm.entity_manager", "@security.token_storage",  "%prediction_start_delay%", "%prediction_end_delay%" ]
         
+    wcpc2K18.leaderboard_manager:
+        class: WCPC2K18Bundle\Component\LeaderBoardManager
+        arguments: [ "@doctrine.orm.entity_manager" ]
+        
         
     # Formulaire de saisie d'une prédiction
     wcpc2k18.form.prediction:
@@ -12,6 +16,11 @@ services:
         arguments: ["@wcpc2k18.prediction_checker" ]
         tags:
             - { name: form.type, alias: prediction }
+    
+    wcpc2k18.form.game:
+        class: WCPC2K18Bundle\Form\GameType
+        tags:
+            - { name: form.type, alias: game }
     
     # Filtres twig personnalisés 
     wcpc2k18.twig_extension:

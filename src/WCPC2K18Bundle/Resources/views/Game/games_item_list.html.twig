@@ -1,28 +1,4 @@
-{% macro predictionButton(game, userPredictions) %}
-    
-    {% if userPredictions[game.id] is defined %}
-        {% set predictionDisplay = userPredictions[game.id].goalsHome ~ ' - ' ~  userPredictions[game.id].goalsAway %}
-    {% else %}
-        {% set predictionDisplay = 'Pronostic' %}
-    {% endif %}
-    <a href="{{ path('wcpc2k18_form_prediction', { 'gameId' : game.id}) }}"><button class="btn btn-sm btn-warning"><i class="fas fa-pencil-alt"></i> {{ predictionDisplay }}</button></a>
-    
-{% endmacro %}
-
-
-
-
-
-{% macro predictionBadge(game, userPredictions, predictionChecker) %}
-    
-        {% set predictionDisplay = userPredictions[game.id].goalsHome | default('') ~ ' - ' ~  userPredictions[game.id].goalsAway | default('') %}
-        {% if predictionChecker.gameStillClosed(game) %}
-            {% set message = 'Fermée' %}
-            {% set badgeColor = 'dark' %}
-        {% endif %}
-        <span class="badge badge-{{ badgeColor | default('danger')}}"><i class="fas fa-lock"></i> {{ message }}</span>
-
-{% endmacro %}
+{% import 'WCPC2K18Bundle:Base:macros.html.twig' as wcpc %}
 
 
 <table class="table table-sm table-striped wcpc2k18-table">
@@ -34,6 +10,9 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Pronostics</td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>Admin.</td>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -42,15 +21,18 @@
             <td class="game-id">Match {{ game.id }}<br><span class="subheader">{{ game.phase }}</span></td>
             <td class="game-date"><i class="far fa-clock"></i> {{ game.kickoff | date('d/m H:i') }}</td>
             <td class="text-right">{{ game.homeTeam.name }}<img class="ml-3 d-none d-lg-inline" src="{{ asset(game.homeTeam | flag(32) ) }}" /></td>
-            <td class="text-center">-</td>
+            <td class="text-center">{{ wcpc.gameResult(game) }}</td>
             <td class=""><img class="mr-3 d-none d-lg-inline" src="{{ asset(game.awayTeam | flag(32) ) }}"/>{{ game.awayTeam.name }}</td>
             <td>
                 {% if predictionChecker.canPredict(game) %}
-                    {{ _self.predictionButton(game, userPredictions) }}
+                    {{ wcpc.predictionButton(game, userPredictions) }}
                 {% else %}
-                    {{ _self.predictionBadge(game, userPredictions, predictionChecker) }}
+                    {{ wcpc.predictionBadge(game, userPredictions, predictionChecker) }}
                 {% endif %}
             </td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td><a href="{{ path('wcpc2k18_form_game', {'gameId' : game.id, 'source' : app.request.uri } ) }}"><button class="btn btn-sm btn-dark"><i class="fas fa-pencil-alt"></i></button></a></td>
+            {% endif %}
                 
         </tr>
         {% endfor %}

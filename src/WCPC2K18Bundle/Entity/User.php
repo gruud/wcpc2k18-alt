@@ -170,5 +170,12 @@ class User extends BaseUser{
     public function removePrediction(Prediction $prediction) {
         $this->predictions->removeElement($prediction);
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString() {
+        return $this->firstName . " " . strtoupper($this->lastName);
+    }
 
 }

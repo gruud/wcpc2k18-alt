@@ -141,4 +141,25 @@ class Prediction {
     public function setGame(Game $game) {
         $this->game = $game;
     }
+    
+    public function __toString() {
+        return $this->user . " : " . $this->goalsHome . " - " . $this->goalsAway;
+    }
+    
+    /**
+     * Renvoie le résultat de la prédiction. Le résultat entier emploie les
+     * même conventions que les résultats de la rencontre pour permettre un 
+     * comparatif facile.
+     * 
+     * @return Un entier représentant le résultat de la prédiction (1 N 2)
+     */
+    public function getResult() {
+        if ($this->getGoalsHome() == $this->getGoalsAway()) {
+            return Game::RESULT_WINNER_HOME;
+        } elseif($this->getGoalsHome() > $this->getGoalsAway()) {
+            return Game::RESULT_WINNER_AWAY;
+        } else {
+            return Game::RESULT_DRAW;
+        }
+    }
 }

@@ -10,7 +10,7 @@ use WCPC2K18Bundle\Entity\User;
  * et contient des classes de récupération spécifiques des rencontres de 
  * la compétition
  *
- * @author seb
+ * @author Sébastien ZINS
  */
 class GameRepository extends EntityRepository {
     
@@ -26,6 +26,24 @@ class GameRepository extends EntityRepository {
         $qb->leftJoin('g.homeTeam', 'ht');
         $qb->leftJoin('g.awayTeam', 'at');
         $qb->addSelect('ht')->addSelect('at');
+        $qb->orderBy('g.id', 'ASC');
+        
+        return $qb->getQuery()->getResult();
+    }
+    
+    /**
+     * Récupère les rencontres avec l'ensemble des données liées nécessaires
+     * pour le calcul du classement.Seules les rencontres ayant un résultat 
+     * son récupérées
+     * @return type
+     */
+    public function findForLeaderboardCalculation() {
+        $qb = $this->createQueryBuilder('g');
+        $qb->leftJoin('g.predictions', 'p');
+        $qb->leftJoin('p.user', 'u');
+        $qb->addSelect('p')->addSelect('u');
+        $qb->orderBy('g.id', 'ASC');
+        $qb->where($qb->expr()->isNotNull('g.goalsHome'));
         
         return $qb->getQuery()->getResult();
     }

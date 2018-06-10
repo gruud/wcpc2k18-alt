@@ -1,0 +1,45 @@
+{% macro predictionButton(game, userPredictions) %}
+    {% import _self as wcpc %}
+
+    
+    {% if userPredictions[game.id] is defined %}
+        {% set predictionDisplay = wcpc.prediction(userPredictions[game.id]) %}
+    {% else %}
+        {% set predictionDisplay = 'Pronostic' %}
+    {% endif %}
+    <a href="{{ path('wcpc2k18_form_prediction', { 'gameId' : game.id}) }}"><button class="btn btn-sm btn-warning btn-prediction"><i class="fas fa-pencil-alt"></i> {{ predictionDisplay }}</button></a>
+    
+{% endmacro %}
+
+{% macro prediction(userPrediction) %}
+    
+    {{ userPrediction.goalsHome }} - {{ userPrediction.goalsAway }} {% if userPrediction.jackpot %} <span class="badge badge-primary">x2</span>{% endif %}
+    
+{% endmacro prediction %}
+
+
+
+{% macro username(user) %}
+    {{ user.firstName }} {{ user.lastName | upper }}
+{% endmacro username %}
+
+
+{% macro predictionBadge(game, userPredictions, predictionChecker) %}
+    
+        {% set predictionDisplay = userPredictions[game.id].goalsHome | default('') ~ ' - ' ~  userPredictions[game.id].goalsAway | default('') %}
+        {% if predictionChecker.gameStillClosed(game) %}
+            {% set message = 'Fermée' %}
+            {% set badgeColor = 'dark' %}
+        {% endif %}
+        <span class="badge badge-{{ badgeColor | default('danger')}}"><i class="fas fa-lock"></i> {{ message }}</span>
+
+{% endmacro %}
+
+{% macro gameResult(game) %}
+    {% if game.goalsHome is not null %}
+        {{ game.goalsHome }} - {{ game.goalsAway }}
+    {% else %}
+        -
+    {% endif %}
+    
+{% endmacro gameResult %}

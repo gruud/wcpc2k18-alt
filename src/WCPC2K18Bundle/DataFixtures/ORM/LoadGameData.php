@@ -29,6 +29,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface {
             $game->setKickoff(\DateTime::createFromFormat("d/m/Y H:i", $gameData['date']));
             $game->setPhase($gameData["phase"]);
             $game->setGroup($gameData["group"]);
+            $game->setRule($this->getReference('rule-' . $gameData["rules"]));
             
             $manager->persist($game);
         }
@@ -39,6 +40,6 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface {
     }
     
     public function getOrder() {
-        return 2;
+        return 3;
     }
 }

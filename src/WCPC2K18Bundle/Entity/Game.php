@@ -34,6 +34,25 @@ class Game {
     const TYPE_PLAYOFF = 1;
     
     /**
+     * Résultat de la rencontre : indéfini - Le match n'a pas été joué
+     */
+    const RESULT_WINNER_UNDEF   = -1;
+    /**
+     * Résultat de la rencontre : l'équipe à domicile gagne
+     */
+    const RESULT_WINNER_HOME    = 0;
+  
+    /**
+     * Résultat de la rencontre : l'équipe à l'extérieur gagne
+     */
+    const RESULT_WINNER_AWAY    = 1;
+    
+    /**
+     * Résultat de la rencontre : Match nul
+     */
+    const RESULT_DRAW           = 2;
+    
+    /**
      *
      * @var integer L'identifiant unique de la rencontre
      * 
@@ -126,6 +145,18 @@ class Game {
      * @ORM\Column(name="game_phase", type="string", length=128)
      */
     private $phase;
+    
+    
+    /**
+     * Les règles du jeu applicables à cette rencontre pour le calcul des
+     * points utilisateurs
+     * 
+     * @var GameRule La règle du jeu utilisée pour cette rencontre
+     * 
+     * @ORM\ManyToOne(targetEntity="GameRule", inversedBy="games")
+     * @ORM\JoinColumn(name="rule_id", referencedColumnName="id")
+     */
+    private $rule;
     
     /**
      *
@@ -241,6 +272,15 @@ class Game {
     public function getPenaltiesAway() {
         return $this->penaltiesAway;
     }
+    
+    /**
+     * Récupère la règle du jeu à utiliser pour calculer les points de cette
+     * rencontre
+     * @return GameRule La règle du jeu utilisée pour cette rencontre
+     */
+    public function getRule() {
+        return $this->rule;
+    }
 
     /**
      * Positionne la date du coup d'envoi
@@ -355,7 +395,7 @@ class Game {
      * @return ArrayCollection La liste des pronostics réalisés pour la 
      * rencontre
      */
-    public function getPredictions(): ArrayCollection {
+    public function getPredictions() {
         return $this->predictions;
     }
 
@@ -452,5 +492,39 @@ class Game {
      */
     public function setId($id) {
         $this->id = $id;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString() {
+        return $this->id . " : " . $this->getHomeTeam()->getName() 
+                . "-" . $this->getAwayTeam()->getName();
+    }
+    
+    /**
+     * Renvoie le vainqueur de la rencontre sous la forme d'un entier.
+     * 
+     * @return integer Renvoie le résultat de la rencontre
+     */
+    public function getResult() {
+        if ($this->getGoalsHome() === null) {
+            return self::RESULT_WINNER_UNDEF;
+        } elseif($this->getGoalsHome() == $this->getGoalsAway()) {
+            return self::RESULT_DRAW;
+        } elseif($this->getGoalsHome() > $this->getGoalsAway()) {
+            return self::RESULT_WINNER_HOME;
+        } else {
+            return self::RESULT_WINNER_AWAY;
+        }
+    }
+    
+    /**
+     * Positionne la règle du jeu à utiliser pour compter les points de pronostics
+     * pour cette rencontre
+     * @param Game $rule La règle à positionner
+     */
+    public function setRule($rule) {
+        $this->rule = $rule;
     }
 }

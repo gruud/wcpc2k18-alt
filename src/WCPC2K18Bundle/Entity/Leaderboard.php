@@ -13,7 +13,7 @@ use WCPC2K18Bundle\Entity\User;
  *
  * @author Sébastien ZINS
  * 
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="WCPC2K18Bundle\Entity\Repository\LeaderboardRepository")
  * @ORM\Table(name="wcpc_leaderboards")
  */
 class Leaderboard {
@@ -87,5 +87,15 @@ class Leaderboard {
      */
     public function setPoints($points) {
         $this->points = $points;
+    }
+    
+    /**
+     * Renvoie une représentation de l'objet sous la forme d'une chaîne de 
+     * caractères
+     * @return string La chaîne associée à l'objet 
+     */
+    public function __toString() {
+        return "Classement pour l'utilisateur " . $this->getUser()->getFirstName()
+                . " " . strtoupper($this->getUser()->getLastName());
     }
 }

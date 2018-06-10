@@ -1,7 +1,27 @@
+{% import 'WCPC2K18Bundle:Base:macros.html.twig' as wcpc %}
+
 <div class="card mt-3">
     <div class="card-header">
-        <i class="far fa-calendar"></i> Classement
+        <i class="far fa-calendar"></i> Classement général individuel
     </div>
     <div class="card-body">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Joueur</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lbitem in leaderboard %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ wcpc.username(lbitem.user) }}</td>
+                        <td>{{ lbitem.points }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>

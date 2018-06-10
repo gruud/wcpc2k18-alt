@@ -53,3 +53,13 @@ h2.main-subtitle {
     font-size: 0.85em;
     color : #999;
 }
+
+.btn-prediction {
+    width: 100px;
+    text-align: left;
+}
+
+.toast-bottom-right {
+    margin: 20px auto;
+    
+}

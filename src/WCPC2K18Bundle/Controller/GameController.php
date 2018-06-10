@@ -21,28 +21,18 @@ class GameController extends Controller {
         
         $manager = $this->getDoctrine()->getManager();
         $games = $manager->getRepository('WCPC2K18Bundle:Game')->findAllWithTeams();
+        $predictionChecker = $this->get('wcpc2k18.prediction_checker');
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $userPredictions = $manager
+                ->getRepository('WCPC2K18Bundle:Prediction')
+                ->findUserPredictionsIndexedByGameId($user);
         
         return  $this->render('WCPC2K18Bundle:Game:games_list.html.twig', [
             "games" => $games,
+            "predictionChecker" => $predictionChecker,
+            "userPredictions" => $userPredictions,
             
         ]);
     }
 
-    /**
-     * Contrôleur permettant la saisie ou la modufication du résultat pour une rencontre. 
-     * La saisie ou la modification du résultat déclenche un recalcul des classements. 
-     * 
-     * @param integer $gameId L'identifiant de la rencontre pour laquelle on souhaite 
-     * remplir le résultat
-     * @return Response La réponse à renvoyer au client.
-     */
-    public function resultAction($gameId) {
-
-        $manager = $this->getDoctrine()->getManager();
-        $game = $manager->getRepository('WCPC2K18Bundle:Game')->findOne($gameId);
-
-        if (null === $game) {
-            
-        }
-    }
 }
