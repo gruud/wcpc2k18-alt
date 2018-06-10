@@ -16,7 +16,14 @@ class UserController extends Controller {
      * Contrôleur permettant l'affichage de la liste des rencontres
      */
     public function listAction() {
-        return $this->render('WCPC2K18Bundle:User:users_list.html.twig');
+        $users = $this->getDoctrine()->getManager()->getRepository('WCPC2K18Bundle:User')->findBy([], [
+            "lastName" => "ASC",
+            "firstName" => "ASC",
+        ]);
+        
+        return $this->render('WCPC2K18Bundle:User:users_list.html.twig', [
+            'users' => $users
+        ]);
     }
     
 }

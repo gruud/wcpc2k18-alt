@@ -5,6 +5,7 @@
         "password": "Szins69!",
         "firstName": "Sébastien",
         "lastName" : "Zins",
+        "department" : "INTEX",
         "role" : "ROLE_ADMIN"
     },
     {
@@ -13,6 +14,7 @@
         "password": "dKlotz458*",
         "firstName": "Didier",
         "lastName" : "Klotz",
+        "department" : "ESA",
         "role" : "ROLE_USER"
     }
 ]

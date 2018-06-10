@@ -5,6 +5,7 @@
         <i class="far fa-calendar"></i> Classement général individuel
     </div>
     <div class="card-body">
+        {% if leaderboard | length > 0 %}
         <table class="table table-sm table-striped">
             <thead>
                 <tr>
@@ -23,5 +24,8 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+            <div class="alert alert-warning text-justify">Le classement n'est pas disponible pour l'instant. Il apparaîtra dès qu'une rencontre aura été jouée</div>
+        {% endif %}
     </div>
 </div>

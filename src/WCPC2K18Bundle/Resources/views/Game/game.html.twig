@@ -1,0 +1,21 @@
+{% extends "WCPC2K18Bundle:Base:layout.html.twig" %}
+
+{% block content %}
+        <div class="row">
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-sm-12">
+                    {% include 'WCPC2K18Bundle:Game/Panes:game_recap.html.twig' %}
+                </div>
+                <div class="col-sm-12">
+                    {% include 'WCPC2K18Bundle:Game/Panes:game_predictions.html.twig' %}
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-lg-4">
+            {% include 'WCPC2K18Bundle:Game/Panes:game_trends.html.twig' %}
+        </div>
+    </div>
+    
+{% endblock content %}

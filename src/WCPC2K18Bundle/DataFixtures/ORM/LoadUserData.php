@@ -32,6 +32,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface {
             $user->setFirstName($userData['firstName']);
             $user->setLastName($userData['lastName']);
             $user->setEnabled(true);
+            $user->setDepartment($userData['department']);
             
             $manager->persist($user);
         }

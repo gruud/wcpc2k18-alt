@@ -16,6 +16,13 @@ class LeaderboardController extends Controller {
     //put your code here
     
     public function indexAction() {
-        return  $this->render('WCPC2K18Bundle:Leaderboard:leaderboard.html.twig');
+        
+        $leaderboard = $this->getDoctrine()->getManager()
+                ->getRepository('WCPC2K18Bundle:Leaderboard')
+                ->getFullLeaderboardOrderedForGeneral();
+        
+        return  $this->render('WCPC2K18Bundle:Leaderboard:leaderboard.html.twig', [
+            'leaderboard' => $leaderboard
+        ]);
     }
 }
