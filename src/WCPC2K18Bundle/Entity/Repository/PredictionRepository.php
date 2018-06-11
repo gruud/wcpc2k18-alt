@@ -76,7 +76,9 @@ class PredictionRepository extends EntityRepository{
     public function findUserJackpotForDay(User $user, $day) {
         $qb = $this->createQueryBuilder('p');
         $qb->join('p.game', 'g')->addSelect('g');
-        $qb->where('g.phase=:phase')->setParameter('phase', $day)
+        $qb->join('p.user', 'u');
+        $qb->where($qb->expr()->eq('u.id', $user->getId()));
+        $qb->andWhere('g.phase=:phase')->setParameter('phase', $day)
                 ->andWhere($qb->expr()->eq('p.jackpot', ':jackpot'))
                 ->setParameter('jackpot', true);
         
