@@ -63,3 +63,13 @@ h2.main-subtitle {
     margin: 20px auto;
     
 }
+
+.prediction-badge {
+    display: inline-block;
+    height : 25px;
+    width: 100px;
+    padding-top : auto;
+    padding-bottom: auto;
+    font-size: 1.0em;
+    font-weight: normal;
+}

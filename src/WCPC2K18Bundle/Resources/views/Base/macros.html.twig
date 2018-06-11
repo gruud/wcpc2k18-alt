@@ -25,15 +25,29 @@
 
 
 {% macro predictionBadge(game, userPredictions, predictionChecker) %}
-    
-        {% set predictionDisplay = userPredictions[game.id].goalsHome | default('') ~ ' - ' ~  userPredictions[game.id].goalsAway | default('') %}
+        
+        {% set predictionDisplay = userPredictions[game.id].goalsHome | default('') ~ ' - ' ~  userPredictions[game.id].goalsAway | default('') %}     
+        {% set userPrediction = (userPredictions[game.id] | default('')) %}
+
+        
         {% if predictionChecker.gameStillClosed(game) %}
+            {# pas encore ouvert #}
             {% set message = 'Fermée' %}
             {% set badgeColor = 'dark' %}
+            {% set badgeIcon = "fas fa-lock" %}
+        {% elseif predictionChecker.gameDeadLinePassed(game) and (userPrediction.goalsHome | default(null)) is not null %}
+            {# Fermé avec pronostic validé #}
+            {% set message = predictionDisplay %}
+            {% set badgeColor = 'success' %}
+        {% elseif predictionChecker.gameDeadLinePassed(game) and userPrediction is null %}
+            BIM
+            {# Fermé, pronostic raté #}
+            {% set message = 'Raté!' %}
+            {% set badgeColor = 'danger' %}
         {% endif %}
-        <span class="badge badge-{{ badgeColor | default('danger')}}"><i class="fas fa-lock"></i> {{ message }}</span>
+        <span class="prediction-badge badge badge-{{ badgeColor | default('danger')}}"><i class="fas fa-lock mr-2"></i>{{ message | default('?')}}</span>
 
-{% endmacro %}
+ {% endmacro %}
 
 {% macro gameResult(game) %}
     {% if game.goalsHome is not null %}

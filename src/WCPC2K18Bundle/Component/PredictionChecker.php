@@ -74,7 +74,26 @@ class PredictionChecker {
      * @return TRUE si l'utilisateur peut pronostiquer la rencontre, FALSE sinon.
      */
     public function canPredict(Game $game) {
+         
         return  !$this->gameStillClosed($game) && !$this->gameDeadlinePassed($game);
+    }
+    
+    /**
+     * Vérifie si un utilisateur administrateur peut saisir le résultat de la
+     * rencontre. La saisie du résultat est ouverte deux heures après le début 
+     * théorique de la rencontre
+     * 
+     * @param Game $game La rencontre à saisir
+     * @return boolean VRAI si l'administrateur peut saisir le résultat d'une rencontre,
+     * FAUX sinon
+     */
+    public function canFillGameResult(Game $game) {
+        $start = clone $game->getKickoff();
+        $gameFillDelay = new \DateInterval('PT7200S');
+        $start->add($gameFillDelay);
+        
+        $now = new \DateTime();
+        return $now > $start;
     }
     
     /**

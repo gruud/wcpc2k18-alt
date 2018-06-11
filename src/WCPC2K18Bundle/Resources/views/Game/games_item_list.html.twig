@@ -31,7 +31,10 @@
                 {% endif %}
             </td>
             {% if is_granted('ROLE_ADMIN') %}
-                <td><a href="{{ path('wcpc2k18_form_game', {'gameId' : game.id, 'source' : app.request.uri } ) }}"><button class="btn btn-sm btn-dark"><i class="fas fa-pencil-alt"></i></button></a></td>
+                <td>
+                    {% if predictionChecker.canFillGameResult(game) %}
+                        <a href="{{ path('wcpc2k18_form_game', {'gameId' : game.id, 'source' : app.request.uri } ) }}"><button class="btn btn-sm btn-dark"><i class="fas fa-pencil-alt"></i></button></a></td>
+                    {% endif %}
             {% endif %}
                 
         </tr>
