@@ -1,11 +1,11 @@
 <?php
 
-
 namespace WCPC2K18Bundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-
+use WCPC2K18Bundle\Entity\Game;
+use WCPC2K18Bundle\Entity\Prediction;
 
 /**
  * La classe GameController implémente le contrôleur prenant en charge la page
@@ -15,10 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
  * @author Sébastien ZINS
  */
 class GameController extends Controller {
+
     //put your code here
-    
+
     public function listAction() {
-        
+
         $manager = $this->getDoctrine()->getManager();
         $games = $manager->getRepository('WCPC2K18Bundle:Game')->findAllWithTeams();
         $predictionChecker = $this->get('wcpc2k18.prediction_checker');
@@ -26,23 +27,102 @@ class GameController extends Controller {
         $userPredictions = $manager
                 ->getRepository('WCPC2K18Bundle:Prediction')
                 ->findUserPredictionsIndexedByGameId($user);
-        
-        return  $this->render('WCPC2K18Bundle:Game:games_list.html.twig', [
-            "games" => $games,
-            "predictionChecker" => $predictionChecker,
-            "userPredictions" => $userPredictions,
-            
+
+        return $this->render('WCPC2K18Bundle:Game:games_list.html.twig', [
+                    "games" => $games,
+                    "predictionChecker" => $predictionChecker,
+                    "userPredictions" => $userPredictions,
         ]);
     }
-    
+
     /**
      * Méthode de contrôleur prenant en charge l'affichage du résultat de la rencontre
      * 
      * @param integer $gameId L'identifiant de la rencontre
      */
     public function showAction($gameId) {
+
+        $manager = $this->getDoctrine()->getManager();
+
+        //Récupération de la rencontre
+        $game = $manager->getRepository('WCPC2K18Bundle:Game')->find($gameId);
+        if (null === $game) {
+            throw $this->createNotFoundException();
+        }
+
+        //Récupération des prédictions pour la rencontre
+        $predictions = $manager->getRepository('WCPC2K18Bundle:Prediction')
+                ->findPredictionsForGame($game);
         
-        return $this->render("WCPC2K18Bundle:Game:game.html.twig");
+        $dataPoolMinSize = $this->getParameter('prediction_trends_min_datapool_size');
+        $trendsData = $this->getPredictionTrendsChartData($game, $predictions, $dataPoolMinSize);
+
+        
+        echo $trendsData; 
+        return $this->render("WCPC2K18Bundle:Game:game.html.twig", [
+            "game" => $game,
+            "predictions" => $predictions,
+            "predictionPoolMinSize" => $dataPoolMinSize,
+            "trendsData" => $trendsData,
+        ]);
     }
 
+    /**
+     * Récupère les données constitutives du graphique de tendances des pronostics
+     * sous la forme d'un objet JSON à injecter directement dans le JS
+     * @param array | Prediction[] $predictions La liste des pronostics
+     */
+    public function getPredictionTrendsChartData(Game $game, $predictions, $dataPoolMinSize) {
+        $data = [
+            "labels" => [
+                "Victoire " . $game->getHomeTeam()->getName() . "(%)",
+                "Victoire " . $game->getAwayTeam()->getName() . "(%)",
+                "Match nul (%)" 
+            ] 
+        ];
+        
+        $predictionsCount = count($predictions);
+        
+        if ($predictionsCount  >= $dataPoolMinSize) {
+            
+            /* @var $prediction Prediction */
+            $homeWinCount = 0;
+            $awayWinCount = 0;
+            $drawCount = 0;
+            
+            foreach ($predictions as $prediction) {
+                switch($prediction->getResult()) {
+                    case Game::RESULT_WINNER_HOME: {
+                        $homeWinCount++;
+                        break;
+                    }
+                    
+                    case Game::RESULT_WINNER_AWAY: {
+                        $awayWinCount++;
+                        break;
+                    }
+                    
+                    case Game::RESULT_DRAW: {
+                        $drawCount++;
+                        break;
+                    }
+                }
+            }
+            
+            $data["datasets"] = [[ 
+                'data' => [
+                    $this->getPercentage($homeWinCount, $predictionsCount),
+                    $this->getPercentage($awayWinCount, $predictionsCount),
+                    $this->getPercentage($drawCount, $predictionsCount),
+                ],
+                
+            ]];
+        }
+        
+        return json_encode($data);
+    }
+    
+    private function getPercentage($number, $total) {
+        return $number * 100 / $total;
+    } 
 }

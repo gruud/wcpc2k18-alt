@@ -7,3 +7,7 @@ parameters:
 
   # Indique le délai de clôture des prédictions, en secondes. Par défaut : 3600 (une heure)
   prediction_end_delay: 3600
+  
+  # Indique le nombre minimal de prédiction qu'une rencontre doit posséder 
+  # pour que le calcul de tendance se fasse. 
+  prediction_trends_min_datapool_size: 5
