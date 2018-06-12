@@ -7,7 +7,6 @@ function createGameTrendChart(id, pieData) {
         "#f0ad4e",
     ];
     
-    
     // For a pie chart
     let ctx = document.getElementById(id).getContext('2d');
     let myPieChart = new Chart(ctx,{

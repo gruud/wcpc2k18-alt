@@ -58,7 +58,7 @@ class GameController extends Controller {
         $trendsData = $this->getPredictionTrendsChartData($game, $predictions, $dataPoolMinSize);
 
         
-        echo $trendsData; 
+       
         return $this->render("WCPC2K18Bundle:Game:game.html.twig", [
             "game" => $game,
             "predictions" => $predictions,
