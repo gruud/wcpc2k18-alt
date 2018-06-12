@@ -111,9 +111,9 @@ class GameController extends Controller {
             
             $data["datasets"] = [[ 
                 'data' => [
-                    $this->getPercentage($homeWinCount, $predictionsCount),
-                    $this->getPercentage($awayWinCount, $predictionsCount),
-                    $this->getPercentage($drawCount, $predictionsCount),
+                    number_format($this->getPercentage($homeWinCount, $predictionsCount), 2, ".",""),
+                    number_format($this->getPercentage($awayWinCount, $predictionsCount), 2, ".", ""),
+                    number_format($this->getPercentage($drawCount, $predictionsCount), 2, ".", ""),
                 ],
                 
             ]];
