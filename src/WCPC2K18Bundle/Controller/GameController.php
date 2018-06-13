@@ -55,7 +55,9 @@ class GameController extends Controller {
                 ->findPredictionsForGame($game);
         
         $dataPoolMinSize = $this->getParameter('prediction_trends_min_datapool_size');
-        $trendsData = $this->getPredictionTrendsChartData($game, $predictions, $dataPoolMinSize);
+        
+        $chartManager = $this->get('wcpc2k18.chart_manager');
+        $trendsData = $chartManager::getPredictionTrendsChartData($game, $predictions, $dataPoolMinSize);
 
         
        
@@ -67,62 +69,5 @@ class GameController extends Controller {
         ]);
     }
 
-    /**
-     * Récupère les données constitutives du graphique de tendances des pronostics
-     * sous la forme d'un objet JSON à injecter directement dans le JS
-     * @param array | Prediction[] $predictions La liste des pronostics
-     */
-    public function getPredictionTrendsChartData(Game $game, $predictions, $dataPoolMinSize) {
-        $data = [
-            "labels" => [
-                "Victoire " . $game->getHomeTeam()->getName() . "(%)",
-                "Victoire " . $game->getAwayTeam()->getName() . "(%)",
-                "Match nul (%)" 
-            ] 
-        ];
-        
-        $predictionsCount = count($predictions);
-        
-        if ($predictionsCount  >= $dataPoolMinSize) {
-            
-            /* @var $prediction Prediction */
-            $homeWinCount = 0;
-            $awayWinCount = 0;
-            $drawCount = 0;
-            
-            foreach ($predictions as $prediction) {
-                switch($prediction->getResult()) {
-                    case Game::RESULT_WINNER_HOME: {
-                        $homeWinCount++;
-                        break;
-                    }
-                    
-                    case Game::RESULT_WINNER_AWAY: {
-                        $awayWinCount++;
-                        break;
-                    }
-                    
-                    case Game::RESULT_DRAW: {
-                        $drawCount++;
-                        break;
-                    }
-                }
-            }
-            
-            $data["datasets"] = [[ 
-                'data' => [
-                    number_format($this->getPercentage($homeWinCount, $predictionsCount), 2, ".",""),
-                    number_format($this->getPercentage($awayWinCount, $predictionsCount), 2, ".", ""),
-                    number_format($this->getPercentage($drawCount, $predictionsCount), 2, ".", ""),
-                ],
-                
-            ]];
-        }
-        
-        return json_encode($data);
-    }
-    
-    private function getPercentage($number, $total) {
-        return $number * 100 / $total;
-    } 
+     
 }

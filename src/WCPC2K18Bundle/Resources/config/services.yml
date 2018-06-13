@@ -5,10 +5,14 @@ services:
         class: WCPC2K18Bundle\Component\PredictionChecker
         arguments: ["@doctrine.orm.entity_manager", "@security.token_storage",  "%prediction_start_delay%", "%prediction_end_delay%" ]
         
+    # Gestionnaire de calcul des classement généraux
     wcpc2K18.leaderboard_manager:
         class: WCPC2K18Bundle\Component\LeaderBoardManager
         arguments: [ "@doctrine.orm.entity_manager" ]
         
+    # Gestionnaire de création des jeux de données pour les graphes
+    wcpc2k18.chart_manager:
+        class: WCPC2K18Bundle\Component\ChartDataManager
         
     # Formulaire de saisie d'une prédiction
     wcpc2k18.form.prediction:
@@ -17,6 +21,7 @@ services:
         tags:
             - { name: form.type, alias: prediction }
     
+    # Formulaire de saisie des résultat d'une rencontre
     wcpc2k18.form.game:
         class: WCPC2K18Bundle\Form\GameType
         tags:

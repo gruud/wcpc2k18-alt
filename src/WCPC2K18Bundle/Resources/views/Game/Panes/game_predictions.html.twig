@@ -5,6 +5,11 @@
         <i class="far fa-calendar"></i> Pronostics
     </div>
     <div class="card-body">
-        {{ wcpc.comingNextAlert() }}
+        {% if game.goalsHome is null %}
+            <div class="alert alert-warning">Les pronostics de tous les joueurs seront
+            affichés une fois la rencontre terminée.</div>
+        {% else %}
+        {% endif %}
+        
     </div>
 </div>
