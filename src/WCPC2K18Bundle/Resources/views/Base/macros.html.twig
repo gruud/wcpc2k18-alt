@@ -61,3 +61,9 @@
 {% macro comingNextAlert() %}
     <div class="alert alert-warning"><i class="far fa-warning"></i> Ce panneau est en phase de reprise. Nous l'afficherons dès qu'il sera près physiquement à rentrer sur le terrain!</div>
 {% endmacro comingNextAlert %}
+
+{% macro predictionResult(prediction) %}
+    {{ prediction.goalsHome }} - {{ prediction.goalsAway }} <i class="{{ prediction.points > 0 ? "fa fas-check" : "fas fa-remove"}}"></i>
+        
+    
+{% endmacro predictionResult %}

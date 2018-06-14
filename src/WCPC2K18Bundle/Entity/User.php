@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use WCPC2K18Bundle\Entity\Prediction;
 use WCPC2K18Bundle\Entity\Leaderboard;
+use WCPC2K18Bundle\Entity\Crew;
 
 /**
  * La classe Utilisateur implémente les utilisateurs de l'application de pronostics.
@@ -69,6 +70,15 @@ class User extends BaseUser{
      * @ORM\OneToOne(targetEntity="Leaderboard", mappedBy="user")
      */
     protected $leaderboard;
+    
+    /**
+     *
+     * @var Crew L'équipe d'appartenance de l'utilisateur
+     * 
+     * @ORM\ManyToOne(targetEntity="Crew", inversedBy="users")
+     * @ORM\JoinColumn(name="crew_id", referencedColumnName="id")
+     */
+    protected $crew;
     
     
     /**
@@ -159,6 +169,22 @@ class User extends BaseUser{
      */
     public function addPrediction(Prediction $prediction) {
         $this->predictions->add($prediction);
+    }
+    
+    /**
+     * Récupère l'équipe d'appartenance de l'utilisateur
+     * @return Crew L'équipe de l'utilisateur
+     */
+    public function getCrew() {
+        return $this->crew;
+    }
+
+    /**
+     * Positionne l'équipe d'appartenance de l'utilisateur
+     * @param Crew $crew L'équipe à positionner
+     */
+    public function setCrew(Crew $crew = null) {
+        $this->crew = $crew;
     }
     
     /**

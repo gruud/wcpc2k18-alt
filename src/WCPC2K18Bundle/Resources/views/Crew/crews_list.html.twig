@@ -1,0 +1,66 @@
+{% extends "WCPC2K18Bundle:Base:layout.html.twig" %}
+{% import 'WCPC2K18Bundle:Base:macros.html.twig' as wcpc %}
+
+{% block content %}
+
+    <div class="alert alert-warning mt-3 mb-5">Attention : seules les équipes comportant au moins
+        quatre participants seront éligibles au classement par équipe</div>
+    
+    
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                Services engagés
+            </div>
+            <div class="card-body">
+                <table  class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th class="text-center">Nombre de participants</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for crew in crews %}
+                            <tr>
+                                <td><a href="#crew-{{ crew.id }}">{{ crew.name }}</a></td>
+                                <td class="text-center"> {{ crew.users | length }} </td>
+                                    
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    
+{% for crew in crews %}
+    <div class="col-lg-12">
+        <div class="card mt-3" id="crew-{{ crew.id }}">
+            <div class="card-header">
+                {{ crew.name }} <span class="badge badge-light"> {{ crew.users | length }}
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Utilisateur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in crew.users %}
+                            <tr>
+                                <td> {{ wcpc.username(user) }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+{% endfor %}
+
+    
+{% endblock content %}

@@ -29,7 +29,7 @@ class ComputeLeaderboardCommand extends ContainerAwareCommand {
      */
     public function execute(InputInterface $input, OutputInterface $output) {
         $lbManager = $this->getContainer()->get('wcpc2k18.leaderboard_manager');
-        $lbManager->computeLeaderboard();
+        $lbManager->computeLeaderboards();
     }
  
 }
