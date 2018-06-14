@@ -14,6 +14,11 @@ wcpc2k18_games:
 wcpc2k18_users:
     path: /participants
     defaults: { _controller: WCPC2K18Bundle:User:list }
+    
+##### Liste des services engagés #####
+wcpc2k18_crews:
+    path: /services
+    defaults: { _controller: WCPC2K18Bundle:Crew:list }
 
 
 #### Classements #####

@@ -63,6 +63,17 @@ class LeaderBoardManager {
         }
     }
     
+    /**
+     * Recalcul complet de l'ensemble des classements pour la compétition.
+     */
+    public function computeLeaderboards() {
+        //Classement général
+        $this->computeLeaderboard();
+        
+        //Classement par équipe
+        $this->computeCrewLeaderboard();
+    }
+    
     
     
     /**
@@ -89,8 +100,53 @@ class LeaderBoardManager {
                 $userLb = $leaderboard[$prediction->getUser()->getId()];
                 $userLb->addPoints($points);
                 $prediction->setPoints($points);
-                
             }
+        }
+        
+        $this->manager->flush();
+    }
+    
+    
+    /**
+     * Réinitialise le classement
+     */
+    public function initCrewLeaderboard() {
+        $crews = $this->manager->getRepository('WCPC2K18Bundle:Crew')->findAll();
+        foreach ($crews as $crew) {
+            $crew->setPoints(0);
+        }
+        
+        $this->manager->flush();
+    }
+    
+    /**
+     * Recalcule le classement par équipe. Le classement par équipe est calculé
+     * en réalisant la moyenne des points obtenus par l'ensemble des membres 
+     * de l'équipe. 
+     */
+    public function computeCrewLeaderboard() {
+        
+        $this->initCrewLeaderboard();
+        
+        //Récupération du classement général
+        $leaderboard = $this->manager->getRepository('WCPC2K18Bundle:Leaderboard')
+                ->findAll();
+        
+        /* @var $lbItem Leaderboard */
+        $crewPoints = [];
+        foreach ($leaderboard as $lbItem) {
+            $crew = $lbItem->getUser()->getCrew();
+            if (!array_key_exists($crew->getName(), $crewPoints)) {
+                $crewPoints[$crew->getName()] = 0;
+            }
+            $crewPoints[$crew->getName()] += $lbItem->getPoints();
+        }
+        
+        $crews = $this->manager->getRepository('WCPC2K18Bundle:Crew')->findAll();
+        /* @var $crew \WCPC2K18Bundle\Entity\Crew */
+        foreach ($crews as $crew) {
+            $finalPoints = $crewPoints[$crew->getName()] / count($crew->getUsers());
+            $crew->setPoints($finalPoints);
         }
         
         $this->manager->flush();
