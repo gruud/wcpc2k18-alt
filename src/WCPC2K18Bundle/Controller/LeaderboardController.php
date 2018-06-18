@@ -21,8 +21,13 @@ class LeaderboardController extends Controller {
                 ->getRepository('WCPC2K18Bundle:Leaderboard')
                 ->getFullLeaderboardOrderedForGeneral();
         
+        $crews = $this->getDoctrine()->getManager()
+                ->getRepository('WCPC2K18Bundle:Crew')
+                ->findBy([], ['points' => 'DESC']);
+        
         return  $this->render('WCPC2K18Bundle:Leaderboard:leaderboard.html.twig', [
-            'leaderboard' => $leaderboard
+            'leaderboard' => $leaderboard,
+            'crews' => $crews
         ]);
     }
 }

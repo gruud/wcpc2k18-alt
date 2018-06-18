@@ -39,6 +39,24 @@ class PredictionRepository extends EntityRepository{
     }
     
     /**
+     * Récupère la liste des pronostics effectués pour une rencontre, 
+     * classée par ordre alphabétique des pronostiqueurs
+     * 
+     * @param Game $game La rencontre 
+     * @return ArrayCollection | Prediction[]| null La liste des pronostics
+     * associés à la rencontre. 
+     */
+    public function findPredictionsForGame(Game $game) {
+        $qb = $this->createQueryBuilder('p');
+        $qb->join('p.user', 'u')->addSelect('u');
+        $qb->join('p.game', 'g')->addSelect('g');
+        $qb->where($qb->expr()->eq('g.id', $game->getId()));
+        $qb->orderBy('u.firstName', 'ASC')->addOrderBy('u.lastName', 'ASC');
+        
+        return $qb->getQuery()->getResult();
+    }
+    
+    /**
      * Récupère tous les pronostics d'un utilisateurs dans un tableau indéxé
      * par l'identifiant de la rencontre pour laquelle ils ont été émis
      * 
@@ -76,7 +94,9 @@ class PredictionRepository extends EntityRepository{
     public function findUserJackpotForDay(User $user, $day) {
         $qb = $this->createQueryBuilder('p');
         $qb->join('p.game', 'g')->addSelect('g');
-        $qb->where('g.phase=:phase')->setParameter('phase', $day)
+        $qb->join('p.user', 'u');
+        $qb->where($qb->expr()->eq('u.id', $user->getId()));
+        $qb->andWhere('g.phase=:phase')->setParameter('phase', $day)
                 ->andWhere($qb->expr()->eq('p.jackpot', ':jackpot'))
                 ->setParameter('jackpot', true);
         

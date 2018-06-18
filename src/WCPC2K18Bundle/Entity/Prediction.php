@@ -189,6 +189,18 @@ class Prediction {
     }
     
     /**
+     * Indique si le pronostic réalisé est parfait (i.e. si le joueur a trouvé le score éxact).
+     * Cette méthode ne doit être utilisé qu'une fois le calcul de points réalisé,
+     * sans quoi elle renverra systématiquement FALSE
+     * 
+     * @return boolean TRUE si le pronostic est parfait, FAUX sinon. 
+     */
+    public function isPerfect() {
+        return $this->points >=0 && $this->points = $this->game->getRule()->getPointsForPerfect();
+    }
+ 
+    
+    /**
      * Positionne les points gagnés via ce pronostic
      * @param integer $points Les points à positionner
      */
@@ -199,5 +211,4 @@ class Prediction {
     public function __toString() {
         return $this->user . " : " . $this->goalsHome . " - " . $this->goalsAway;
     }
-    
 }

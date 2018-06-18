@@ -50,3 +50,5 @@
 
 #Netbeans
 /nbproject
+
+/src/WCPC2K18Bundle/DataFixtures/ORM/users.json

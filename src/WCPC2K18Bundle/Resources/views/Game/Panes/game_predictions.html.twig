@@ -5,6 +5,29 @@
         <i class="far fa-calendar"></i> Pronostics
     </div>
     <div class="card-body">
-        {{ wcpc.comingNextAlert() }}
+        {% if game.goalsHome is null %}
+            <div class="alert alert-warning">Les pronostics de tous les joueurs seront
+            affichés une fois la rencontre terminée.</div>
+        {% else %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>Participant</td>
+                        <td>Pronostic</td>
+                        <td>Points</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prediction in predictions %}
+                        <tr>
+                            <td>{{ wcpc.username(prediction.user) }}</td>
+                            <td>{{ prediction.goalsHome }} - {{ prediction.goalsAway }} </td>
+                            <td>{{ prediction.points }}{% if prediction.isPerfect %}<i class="fas fa-star"></i>{% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        
     </div>
 </div>

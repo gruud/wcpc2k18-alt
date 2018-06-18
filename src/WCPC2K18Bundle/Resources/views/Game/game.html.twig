@@ -19,3 +19,15 @@
     </div>
     
 {% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/wcpc2k18/js/Chart.bundle.min.js') }}"></script>
+    {% if predictions | length >= predictionPoolMinSize %}
+    <script>
+        let data = {{ trendsData | raw }};
+        console.log(data);
+        createGameTrendChart("trendsChart", data);
+    </script>
+    {% endif %}
+{% endblock javascripts %}

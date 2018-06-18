@@ -34,6 +34,9 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface {
             $user->setEnabled(true);
             $user->setDepartment($userData['department']);
             
+            //Création ou récupération de l'équipe
+            $crew = $manager->getRepository('WCPC2K18Bundle:Crew');
+            
             $manager->persist($user);
         }
         
