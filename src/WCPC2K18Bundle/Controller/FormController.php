@@ -47,6 +47,10 @@ class FormController extends Controller {
             throw $this->createNotFoundException();
         }
         
+        if (! $predictionChecker->canPredict($game)) {
+            throw $this->createAccessDeniedException("Vous ne pouvez plus pronostiquer cette rencontre");
+        }
+        
         //3. Récupération du pronostic, s'il existe.
         $prediction = $manager->getRepository('WCPC2K18Bundle:Prediction')
                 ->findUserPredictionForGame($user, $game);
@@ -57,6 +61,8 @@ class FormController extends Controller {
             $prediction->setUser($user);
         }
 
+        
+        
         
         $form = $this->createForm('prediction', $prediction, compact('user', 'game', 'predictionChecker'));
         $form->handleRequest($request);
