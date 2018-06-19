@@ -22,7 +22,7 @@
                         <tr>
                             <td>{{ wcpc.username(prediction.user) }}</td>
                             <td>{{ prediction.goalsHome }} - {{ prediction.goalsAway }} </td>
-                            <td>{{ prediction.points }}{% if prediction.isPerfect %}<i class="fas fa-star"></i>{% endif %}
+                            <td>{{ prediction.points }}{% if prediction.isPerfectlyAccurate %}<i class="fas fa-star"></i>{% endif %}
                         </tr>
                     {% endfor %}
                 </tbody>

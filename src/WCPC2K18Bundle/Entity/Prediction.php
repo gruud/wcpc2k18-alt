@@ -19,6 +19,27 @@ use WCPC2K18Bundle\Entity\Game;
 class Prediction {
     
     /**
+     * Validité de la prédiction : La prédiction est fausse (mauvais résultat)
+     */
+    const ACCURACY_NONE = 0;
+            
+    /**
+     * Validité de la prédiction : Le résultat est trouvé
+     */
+    const ACCURACY_WINNER = 1;
+    
+    /**
+     * Validité de la prédiction : La différence de buts est trouvée
+     */
+    const RESULT_GA = 2;
+    
+    /**
+     * Validité de la prédiction : Score exact
+     */
+    const RESULT_PERFECT  =2;
+    
+    
+    /**
      *
      * @var integer L'identifiant unique du pronostic
      * 
@@ -187,17 +208,45 @@ class Prediction {
     public function setGame(Game $game) {
         $this->game = $game;
     }
+
+    /**
+     * Renvoie un nombre indiquant la validité du pronostic. 
+     * 
+     * @return integer Un entier représentant la validité du pronostic. 
+     */
+    public function getAccuracy() {
+        
+    }
     
     /**
-     * Indique si le pronostic réalisé est parfait (i.e. si le joueur a trouvé le score éxact).
-     * Cette méthode ne doit être utilisé qu'une fois le calcul de points réalisé,
-     * sans quoi elle renverra systématiquement FALSE
+     * Indique si le pronostic indique le bon vainqueur de la rencontre
      * 
-     * @return boolean TRUE si le pronostic est parfait, FAUX sinon. 
+     * @return boolean VRAI si le pronostic indique le bon vainqueur, faux sinon
      */
-    public function isPerfect() {
-        return $this->points >=0 && $this->points = $this->game->getRule()->getPointsForPerfect();
+    public function isWinnerAccurate() {
+        return $this->getResult() == $this->game->getResult();
+    }   
+    
+    /**
+     * Indique si le pronostic indique le bon vainqueur et la bonne différence
+     * de buts
+     * 
+     * @return  boolean VRAI si le pronostic indique le bon vainqueur et la 
+     * bonne différence de buts, FAUX sinon
+     */
+    public function isGoalAverageAccurate() {
+        return $this->game->getGA() == $this->getGA();
     }
+    
+    /**
+     * Indique si le pronostic est parfaitement exact
+     * @return type
+     */
+    public function isPerfectlyAccurate() {
+        return ($this->game->getGoalsHome() == $this->getGoalsHome() &&
+                $this->game->getGoalsAway() == $this->getGoalsAway());
+    }
+    
  
     
     /**

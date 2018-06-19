@@ -126,6 +126,8 @@ class LeaderBoardManager {
      */
     public function computeCrewLeaderboard() {
         
+        
+        echo "Calcul des points par équipes \n";
         $this->initCrewLeaderboard();
         
         //Récupération du classement général
@@ -145,6 +147,7 @@ class LeaderBoardManager {
         $crews = $this->manager->getRepository('WCPC2K18Bundle:Crew')->findAll();
         /* @var $crew \WCPC2K18Bundle\Entity\Crew */
         foreach ($crews as $crew) {
+            echo "Points de l'équipe " . $crew->getName() . " : " . $crewPoints[$crew->getName()] . " (" . count($crew->getUsers()) . " utilisateurs)";
             $finalPoints = $crewPoints[$crew->getName()] / count($crew->getUsers());
             $crew->setPoints($finalPoints);
         }
@@ -159,16 +162,15 @@ class LeaderBoardManager {
      * @param \WCPC2K18Bundle\Component\Prediction $prediction
      */
     private function computePointsForPrediction(Game $game, Prediction $prediction) {
-        $result = $game->getResult();
         $points = 0;
         
-        if ($this->userHasPerfectPrediction($game, $prediction)) {
+        if ($prediction->isPerfectlyAccurate()) {
             $points = $game->getRule()->getPointsForPerfect();
         }
-        elseif ($this->userHasGA($game, $prediction)) {
+        elseif ($prediction->isGoalAverageAccurate()) {
             $points = $game->getRule()->getPointsForCorrectGA();
         }
-        elseif ($this->userHasGameResult($result, $prediction)) {
+        elseif ($prediction->isWinnerAccurate()) {
             $points = $game->getRule()->getPointsForCorrectWinner();
         }
         
@@ -179,41 +181,6 @@ class LeaderBoardManager {
         }
         
         return $points;
-    }
-    
-    /**
-     * Indique si l'utilisateur a trouvé le résultat de la rencontre
-     * 
-     * @param integer $gameResult Un entier représentant le résultat de l'équipe
-     * @param Prediction $prediction Le pronostic
-     * @return boolean VRAI si le pronostic a le bon vainqueur
-     */
-    private function userHasGameResult($gameResult, Prediction $prediction) {
-        
-        return $gameResult == $prediction->getResult();
-    }
-    
-    /**
-     * Indique si l'utilisateur a le bon goal average pour la rencontre
-     * @param Game $game La rencontre considérée
-     * @param Prediction $prediction Le pronostic de l'utilisateur
-     * 
-     * @return boolean VRAI si le goal average du pronostic est bon, 
-     * FAUX sinon
-     */
-    private function userHasGA(Game $game, Prediction $prediction) {
-        return $game->getGA() == $prediction->getGA();
-    }
-    
-    /**
-     * Indique si le pronostic de l'utilisateur est parfaitement exact
-     * @param Game $game La rencontre considérée
-     * @param Prediction $prediction Le pronostic de l'utilisateur
-     * @return boolean VRAI si l'utilisateur a pronostiqué le score exact.
-     */
-    private function userHasPerfectPrediction(Game $game, Prediction $prediction) {
-        return ($game->getGoalsHome() == $prediction->getGoalsHome() && 
-                $game->getGoalsAway() == $prediction->getGoalsAway());
     }
 
 }
