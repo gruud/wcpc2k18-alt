@@ -177,6 +177,7 @@ class Game {
     private $predictions;
     
     
+    
     public function __construct() {
         $this->predictions = new ArrayCollection();
     }
@@ -538,5 +539,15 @@ class Game {
      */
     public function setRule($rule) {
         $this->rule = $rule;
+    }
+    
+    /**
+     * Vérifie si la rencontre a déjà commencée
+     * 
+     * @return boolean VRAI si la rencontre a commencé, FAUX sinon.
+     */
+    public function hasStarted() {
+        $now = new \DateTime();
+        return $this->kickoff < $now;
     }
 }

@@ -5,9 +5,9 @@
         <i class="far fa-calendar"></i> Pronostics
     </div>
     <div class="card-body">
-        {% if game.goalsHome is null %}
+        {% if not game.hasStarted %}
             <div class="alert alert-warning">Les pronostics de tous les joueurs seront
-            affichés une fois la rencontre terminée.</div>
+            affichés une fois la rencontre commencée.</div>
         {% else %}
             <table class="table table-striped">
                 <thead>
