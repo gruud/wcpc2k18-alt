@@ -26,4 +26,20 @@ class UserController extends Controller {
         ]);
     }
     
+    public function detailAction($userId) {
+        $user = $this->getDoctrine()->getManager()
+                ->getRepository('WCPC2K18Bundle:User')
+                ->findWithPredictionsOrderedByGameId($userId);
+        
+        if (null === $user) {
+            throw $this->createNotFoundException();
+        }
+        
+        return $this->render('WCPC2K18Bundle:User:user_detail.html.twig', [
+            'user' => $user,
+        ]);
+        
+        
+    }
+    
 }

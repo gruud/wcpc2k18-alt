@@ -15,6 +15,11 @@ wcpc2k18_users:
     path: /participants
     defaults: { _controller: WCPC2K18Bundle:User:list }
     
+##### Détail d'un joueur participant #####
+wcpc2k18_user:
+    path: /participant/{userId}/detail
+    defaults: { _controller: WCPC2K18Bundle:User:detail }
+    
 ##### Liste des services engagés #####
 wcpc2k18_crews:
     path: /services

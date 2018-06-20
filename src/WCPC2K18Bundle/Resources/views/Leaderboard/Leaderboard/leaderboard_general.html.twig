@@ -16,12 +16,22 @@
                 </tr>
             </thead>
             <tbody>
+                
+                {% set previousPoints = 0 %}
+                
                 {% for lbitem in leaderboard %}
                     <tr>
-                        <td>{{ loop.index }}</td>
+                        <td>
+                            {% if previousPoints == lbitem.points %}
+                                &nbsp;
+                            {% else %}
+                                {{ loop.index }}
+                            {% endif %}
+                        </td>
                         <td>{{ wcpc.username(lbitem.user) }}</td>
                         <td>{{ lbitem.points }}</td>
                     </tr>
+                    {% set previousPoints = lbitem.points %}
                 {% endfor %}
             </tbody>
         </table>

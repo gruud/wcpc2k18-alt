@@ -20,7 +20,7 @@
                     <tbody>
                         {% for user in users %}
                             <tr>
-                                <td>{{ wcpc.username(user) }}</td>
+                                <td><a href="{{ path('wcpc2k18_user', {'userId' : user.id}) }}">{{ wcpc.username(user) }}</a></td>
                                 <td>{{ user.crew.name }} </td>
                             </tr>
                         {% endfor %}

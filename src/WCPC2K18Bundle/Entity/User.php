@@ -14,7 +14,7 @@ use WCPC2K18Bundle\Entity\Crew;
  *
  * @author Sébastien ZINS
  * 
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="WCPC2K18Bundle\Entity\Repository\UserRepository")
  * @ORM\Table("wcpc_users")
  */
 class User extends BaseUser{

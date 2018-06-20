@@ -25,8 +25,9 @@
 
 
 {% macro predictionBadge(game, userPredictions, predictionChecker) %}
-        
-        {% set predictionDisplay = userPredictions[game.id].goalsHome | default('') ~ ' - ' ~  userPredictions[game.id].goalsAway | default('') %}     
+        {% import _self as wcpc %}
+
+        {% set predictionDisplay = wcpc.prediction(userPredictions[game.id]) %}
         {% set userPrediction = (userPredictions[game.id] | default('')) %}
 
         
