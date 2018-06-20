@@ -73,3 +73,8 @@ h2.main-subtitle {
     font-size: 1.0em;
     font-weight: normal;
 }
+
+.leaderboard-connected-user {
+    background-color: #ffc107;
+    font-weight: bold;
+}

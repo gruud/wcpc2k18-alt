@@ -20,7 +20,7 @@
                 {% set previousPoints = 0 %}
                 
                 {% for lbitem in leaderboard %}
-                    <tr>
+                    <tr{% if lbitem.user.id == app.user.id %} class="leaderboard-connected-user"{% endif %}>
                         <td>
                             {% if previousPoints == lbitem.points %}
                                 &nbsp;

@@ -149,6 +149,7 @@ class LeaderBoardManager {
         foreach ($crews as $crew) {
             echo "Points de l'équipe " . $crew->getName() . " : " . $crewPoints[$crew->getName()] . " (" . count($crew->getUsers()) . " utilisateurs)";
             $finalPoints = $crewPoints[$crew->getName()] / count($crew->getUsers());
+            echo "Moyenne calculée : " . $finalPoints . "\n";
             $crew->setPoints($finalPoints);
         }
         
