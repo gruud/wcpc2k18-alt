@@ -75,6 +75,6 @@ h2.main-subtitle {
 }
 
 .leaderboard-connected-user {
-    background-color: #ffc107;
+    background-color: #ffc107 !important;
     font-weight: bold;
 }
