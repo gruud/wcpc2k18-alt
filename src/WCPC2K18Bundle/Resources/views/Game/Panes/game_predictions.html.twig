@@ -20,8 +20,8 @@
                 <tbody>
                     {% for prediction in predictions %}
                         <tr>
-                            <td>{{ wcpc.username(prediction.user) }}</td>
-                            <td>{{ prediction.goalsHome }} - {{ prediction.goalsAway }} </td>
+                            <td><a href="{{ path('wcpc2k18_user', {'userId' : prediction.user.id } ) }}">{{ wcpc.username(prediction.user) }}</a></td>
+                            <td>{{ wcpc.prediction(prediction) }} </td>
                             <td>{% if game.goalsHome is not null %}
                                 {{ prediction.points }}{% if prediction.isPerfectlyAccurate %} <i class="fas fa-star"></i>{% endif %}
                                 {% else %}

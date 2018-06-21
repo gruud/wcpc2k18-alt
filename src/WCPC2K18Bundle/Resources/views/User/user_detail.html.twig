@@ -21,7 +21,7 @@
                        {% for prediction in user.predictions %}
                            {% if prediction.game.hasStarted %}
                            <tr>
-                                <td>Match {{ prediction.game.id }}</td>
+                               <td><a href="{{ path('wcpc2k18_game', {'gameId' : prediction.game.id }) }}">Match {{ prediction.game.id }}</a><br><span class="subheader">{{ prediction.game.phase }}</span></td>
                                 <td class="text-right">{{ prediction.game.homeTeam.name }}<img class="ml-3 d-none d-lg-inline" src="{{ asset(prediction.game.homeTeam | flag(32) ) }}" /></td>
                                 <td class="text-center">{{ wcpc.gameResult(prediction.game) }}</td>
                                 <td class=""><img class="mr-3 d-none d-lg-inline" src="{{ asset(prediction.game.awayTeam | flag(32) ) }}"/>{{ prediction.game.awayTeam.name }}</td>

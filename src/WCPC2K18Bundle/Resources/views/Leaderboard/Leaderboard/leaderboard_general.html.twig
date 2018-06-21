@@ -28,7 +28,7 @@
                                 {{ loop.index }}
                             {% endif %}
                         </td>
-                        <td>{{ wcpc.username(lbitem.user) }}</td>
+                        <td><a href="{{ path('wcpc2k18_user', {'userId' : lbitem.user.id}) }}">{{ wcpc.username(lbitem.user) }}</a></td>
                         <td>{{ lbitem.points }}</td>
                     </tr>
                     {% set previousPoints = lbitem.points %}
